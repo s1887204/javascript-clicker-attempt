@@ -39,7 +39,17 @@
         // SET INTERVAL //
         setInterval(function() {
           score = score + cursor__amount;
+
+          document.getElementById("score").innerHTML = score;
         }, 1000) // 1000 MS = 1 Second
+
+      // UPDATE SCREEN //
+      function update_screen() {
+        document.getElementById("score").innerHTML = score;
+        // CURSOR REFRESH //
+        document.getElementById("cursorcost").innerHTML = cursor__cost;
+        document.getElementById("cursors").innerHTML = cursor__amount;
+      }
     </script>
   </body>
   
