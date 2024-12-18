@@ -8,13 +8,14 @@
     <img src="images/exploding dinosaur.png" height="256px" width="256px" onclick="addToScore(1)">
 
     <button onclick="cursor__buy()">Dinosaur Hands [<span id="cursorcost">15</span>] == <span id="cursors">0</span> </button>
+    <button onclick="dinfeet__buy()">Dinosaur Feet [<span id="dinfeetcost">15</span>] == <span id="dinfeet">0</span> </button>
     
     <script>
         var score = 0;
       
         // CURSOR //
         // CURSOR //
-        var cursor_click_amt = 100;
+        var cursor__cps = .1;
         var cursor__cost = 15;
         var cursor__amount = 0;
         function cursor__buy() {
@@ -29,6 +30,22 @@
           }
         }
 
+      // DINOSAUR FEET //
+      var dinfeet_cps = 5;
+      var dinfeet__cost = 100;
+      var dinfeet__amount = 0;
+      function dinfeet__buy() {
+          if (score >= dinfeet__cost) {
+            score = score - dinfeet__cost;
+            dinfeet__amount = dinfeet__amount + 1;
+            dinfeet__cost = Math.round(dinfeet__cost * 1.25);
+
+            document.getElementById("score").innerHTML = score;
+            document.getElementById("dinfeetcost").innerHTML = dinfeet__cost;
+            document.getElementById("dinfeet").innerHTML = dinfeet__amount;
+          }
+      }
+
         // CLICKING //
         // CLICKING //
         function addToScore(amount) {
@@ -38,11 +55,10 @@
 
         // SET INTERVAL //
         // SET INTERVAL //
-        setInterval(function() {
-          score = score + (cursor_click_amt * cursor__amount);
+        setInterval(function() {81_click_amt * cursor__amount) + (dinfeet__amount=);
 
           document.getElementById("score").innerHTML = score;
-        }, 0.1) // 1000 MS = 1 Second
+        }, 1000) // 1000 MS = 1 Second
 
       // UPDATE SCREEN //
       function update_screen() {
