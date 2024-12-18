@@ -5,19 +5,41 @@
 
   <body>
     <P>Score: <span id="score">0</span> </P>
-    <img src="images/exploding dinosaur.png" height="256px" width="512px" onclick="addToScore(1)">
+    <img src="images/exploding dinosaur.png" height="256px" width="256px" onclick="addToScore(1)">
 
-    <button>Cursor 1</button>
+    <button onclick="cursor__buy()">Cursor [<span id="cursorcost">15</span>] == <span id="cursors">0</span> </button>
     
     <script>
         var score = 0;
-  
-        score = score + 1
-  
+      
+        // CURSOR //
+        // CURSOR //
+        var cursor__cost = 15;
+        var cursor__amount = 0;
+        function cursor__buy() {
+          if (score >= cursor__cost) {
+            score = score - cursor__cost;
+            cursor__amount = cursor__amount + 1;
+            cursor__cost = Math.round(cursor__cost * 1.15);
+
+            document.getElementById("score").innerHTML = score;
+            document.getElementById("cursorcost").innerHTML = cursor__cost;
+            document.getElementById("cursors").innerHTML = cursor__amount;
+          }
+        }
+
+        // CLICKING //
+        // CLICKING //
         function addToScore(amount) {
-          score = score + 1
+          score = score + 1;
           document.getElementById("score").innerHTML = score;
         }
+
+        // SET INTERVAL //
+        // SET INTERVAL //
+        setInterval(function() {
+          score = score + cursor__amount;
+        }, 1000) // 1000 MS = 1 Second
     </script>
   </body>
   
