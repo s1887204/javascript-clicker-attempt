@@ -10,7 +10,7 @@
     <img src="images/exploding dinosaur.png" height="256px" width="256px" onclick="addToScore(1)">
 
     <button onclick="cursor__buy()">Dinosaur Hands [<span id="cursorcost">15</span>] == <span id="cursors">0</span> </button>
-    <button onclick="dinfeet__buy()">Dinosaur Feet [<span id="dinfeetcost">15</span>] == <span id="dinfeet">0</span> </button>
+    <button onclick="dinfeet__buy()">Dinosaur Feet [<span id="dinfeetcost">100</span>] == <span id="dinfeet">0</span> </button>
     
     <script>
         var score = 0;
@@ -25,6 +25,7 @@
             score = score - cursor__cost;
             cursor__amount = cursor__amount + 1;
             cursor__cost = Math.round(cursor__cost * 1.15);
+            
             update_screen()
           }
         }
@@ -39,9 +40,7 @@
             dinfeet__amount = dinfeet__amount + 1;
             dinfeet__cost = Math.round(dinfeet__cost * 1.25);
 
-            document.getElementById("score").innerHTML = Math.round(score);
-            document.getElementById("dinfeetcost").innerHTML = dinfeet__cost;
-            document.getElementById("dinfeet").innerHTML = dinfeet__amount;
+            update_screen()
           }
       }
 
