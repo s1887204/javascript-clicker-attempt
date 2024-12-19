@@ -25,10 +25,7 @@
             score = score - cursor__cost;
             cursor__amount = cursor__amount + 1;
             cursor__cost = Math.round(cursor__cost * 1.15);
-
-            document.getElementById("score").innerHTML = Math.round(score);
-            document.getElementById("cursorcost").innerHTML = cursor__cost;
-            document.getElementById("cursors").innerHTML = cursor__amount;
+            update_screen()
           }
         }
 
@@ -42,7 +39,9 @@
             dinfeet__amount = dinfeet__amount + 1;
             dinfeet__cost = Math.round(dinfeet__cost * 1.25);
 
-            update_screen()
+            document.getElementById("score").innerHTML = Math.round(score);
+            document.getElementById("dinfeetcost").innerHTML = dinfeet__cost;
+            document.getElementById("dinfeet").innerHTML = dinfeet__amount;
           }
       }
 
