@@ -24,7 +24,7 @@
             cursor__amount = cursor__amount + 1;
             cursor__cost = Math.round(cursor__cost * 1.15);
 
-            document.getElementById("score").innerHTML = score;
+            document.getElementById("score").innerHTML = Math.round(score);
             document.getElementById("cursorcost").innerHTML = cursor__cost;
             document.getElementById("cursors").innerHTML = cursor__amount;
           }
@@ -40,7 +40,7 @@
             dinfeet__amount = dinfeet__amount + 1;
             dinfeet__cost = Math.round(dinfeet__cost * 1.25);
 
-            document.getElementById("score").innerHTML = score;
+            document.getElementById("score").innerHTML = Math.round(score);
             document.getElementById("dinfeetcost").innerHTML = dinfeet__cost;
             document.getElementById("dinfeet").innerHTML = dinfeet__amount;
           }
@@ -50,7 +50,7 @@
         // CLICKING //
         function addToScore(amount) {
           score = score + 1;
-          document.getElementById("score").innerHTML = score;
+          document.getElementById("score").innerHTML = Math.round(score);
         }
 
         // SET INTERVAL //
@@ -58,12 +58,12 @@
         setInterval(function() {
           score = score + (cursor__amount * cursor__cps) + (dinfeet__amount * dinfeet__cps);
 
-          document.getElementById("score").innerHTML = score;
+          document.getElementById("score").innerHTML = Math.round(score);
         }, 1000) // 1000 MS = 1 Second
 
       // UPDATE SCREEN //
       function update_screen() {
-        document.getElementById("score").innerHTML = score;
+        document.getElementById("score").innerHTML = Math.round(score);
         // CURSOR REFRESH //
         document.getElementById("cursorcost").innerHTML = cursor__cost;
         document.getElementById("cursors").innerHTML = cursor__amount;
