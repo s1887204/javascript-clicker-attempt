@@ -13,7 +13,7 @@
           </div>
 
           <div class="clickercontainer">
-            <img src="images/click button new.jpg" onclick="addToScore(1)">
+            <img src="images/click_button.jpg" onclick="addToScore(1)">
           </div>
         </center>
     </div>
@@ -26,9 +26,20 @@
                   <p>Cursor</p>
                   <p><span id="cursorcost">15</span> Clicks</p>
               </td>
-              <td id="cursor"><span>0</span></td>
+              <td id="cursors"><span>0</span></td>
             </tr>
         </table>
+
+        <table class="shopButton" onclick="curminer__buy()">
+          <tr>
+            <td id="image"><img src="images/no_texture.png"></td>
+            <td id="nameAndCost">
+                <p>Cursor Miners</p>
+                <p><span id="curminercost">100</span> Clicks</p>
+            </td>
+            <td id="curminers"><span>0</span></td>
+          </tr>
+      </table>
     </div>
     
     <script>
@@ -49,15 +60,15 @@
           }
         }
 
-        // DINOSAUR FEET //
-        var dinfeet__cps = 5;
-        var dinfeet__cost = 100;
-        var dinfeet__amount = 0;
-        function dinfeet__buy() {
-            if (score >= dinfeet__cost) {
-              score = score - dinfeet__cost;
-              dinfeet__amount = dinfeet__amount + 1;
-              dinfeet__cost = Math.round(dinfeet__cost * 1.25);
+        // CURSOR MINER //
+        var curminer__cps = 5;
+        var curminer__cost = 100;
+        var curminer__amount = 0;
+        function curminer__buy() {
+            if (score >= curminer__cost) {
+              score = score - curminer__cost;
+              curminer__amount = curminer__amount + 1;
+              curminer__cost = Math.round(curminer__cost * 1.25);
   
               update_screen()
             }
@@ -73,7 +84,7 @@
         // SET INTERVAL //
         // SET INTERVAL //
         setInterval(function() {
-          score = score + (cursor__amount * cursor__cps) + (dinfeet__amount * dinfeet__cps);
+          score = score + (cursor__amount * cursor__cps) + (curminer__amount * curminer__cps);
 
           document.getElementById("score").innerHTML = Math.round(score);
         }, 1000) // 1000 MS = 1 Second
@@ -81,15 +92,15 @@
       // UPDATE SCREEN //
       function update_screen() {
         document.getElementById("score").innerHTML = Math.round(score); 
-        document.getElementById("cps").innerHTML = (cursor__amount * cursor__cps) + (dinfeet__amount * dinfeet__cps)
+        document.getElementById("cps").innerHTML = (cursor__amount * cursor__cps) + (curminer__amount * curminer__cps)
         
         // CURSOR REFRESH //
         document.getElementById("cursorcost").innerHTML = cursor__cost;
         document.getElementById("cursors").innerHTML = cursor__amount;
 
         // DINOFEET REFRESH //
-        document.getElementById("dinfeetcost").innerHTML = dinfeet__cost;
-        document.getElementById("dinfeet").innerHTML = dinfeet__amount;
+        document.getElementById("curminercost").innerHTML = curminer__cost;
+        document.getElementById("curminers").innerHTML = curminer__amount;
       }
     </script>
   </body>
