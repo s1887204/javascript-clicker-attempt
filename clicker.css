@@ -22,7 +22,7 @@ button {
 .scorecontainer {
   background-color: rgb(230, 230, 230, 0.6);
   width: 50%;
-  padding: 10px;
+  padding: 20px;
   border-radius: 10px;
   font-size: 24px;
   font-weight: bold;
@@ -30,7 +30,7 @@ button {
 
 .clickercontainer img {
   position: relative;
-  transition: all 1s ease-in-out;
+  transition: all .2s ease-in-out;
 }
 
 .clickercontainer img:hover { transform: scale(1.10); }
