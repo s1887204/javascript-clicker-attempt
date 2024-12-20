@@ -35,3 +35,27 @@ button {
 
 .clickercontainer img:hover { transform: scale(1.10); }
 .clickercontainer img:active { transform: scale(0.99); }
+
+.shopButton {
+  background-color: #b5b5b5;
+  transition: all .2s ease-in-out;
+  border-radius: 10px;
+  width: 100%;
+  margin: 10px 0px 10px 0px
+}
+
+.shopButton:hover {
+  background-color: #c7c7c7;
+  transition: all .2s ease-in-out;
+}
+
+.shopButton #image {
+  width: 25%;
+}
+
+.shopButton img {
+  height: 64px;
+  width: 64px;
+}
+
+.shopButton #nameAndCost
