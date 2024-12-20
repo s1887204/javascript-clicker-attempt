@@ -17,9 +17,9 @@
     <script>
         var score = 0;
       
-      // CURSOR //
-      // CURSOR //
-      var cursor__cps = .1;
+        // CURSOR //
+        // CURSOR //
+        var cursor__cps = .1;
         var cursor__cost = 15;
         var cursor__amount = 0;
         function cursor__buy() {
@@ -64,7 +64,7 @@
       // UPDATE SCREEN //
       function update_screen() {
         document.getElementById("score").innerHTML = Math.round(score); 
-        //document.getElementById("
+        document.getElementById("cps").innerHTML = (cursor__amount * cursor__cps) + (dinfeet__amount * dinfeet__cps)
         
         // CURSOR REFRESH //
         document.getElementById("cursorcost").innerHTML = cursor__cost;
