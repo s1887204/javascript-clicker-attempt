@@ -9,6 +9,14 @@ button {
   font-size: 18px;
 }
 
+.dino {
+  padding: inherit;
+  margin:auto;
+  width: 256px;
+  height: 256px;
+  display: block;
+}
+
 .infotext {
   font-size: 24px;
   font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
