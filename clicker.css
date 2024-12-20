@@ -64,11 +64,11 @@ button {
 }
 
 .shopButton #nameAndCost p:first_of_type {
-  font-size: 24px
+  font-size: 36px
 }
 
 .shopButton #amount {
-  font-size: 48px;
+  font-size: 64px;
   color: #595959;
   font-family: roboto;
   width: 15%;
