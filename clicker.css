@@ -11,15 +11,26 @@ button {
 
 .sectionright {
   float: right;
+  width: 20%;
 }
 
 .sectionleft {
   float: left;
+  width: 80%;
 }
 
-.infotext {
+.scorecontainer {
+  background-color: rgb(230, 230, 230, 0.6);
+  width: 50%;
+  padding: 10px;
+  border-radius: 10px;
   font-size: 24px;
-  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  align-self: center;
-  text-align: center;
+  font-weight: bold;
 }
+
+.clickercontainer img {
+  position: relative;
+}
+
+.clickercontainer img:hover { transform: scale(1.10); }
+.clickercontainer img:active { transform: scale(0.99); }
