@@ -5,13 +5,25 @@
   </head>
 
   <body>
-    <P class="infotext">Score: <span id="score">0</span> </P>
-    <P class="infotext">Clicks Per Second: <span id="cps">0</span></P>
-    <img class="dino" src="images/exploding dinosaur.png" onclick="addToScore(1)">
+    <div class="sectionleft">
+        <center>
+            <div class="scorecontainer">
+               <P>Score: <span id="score">0</span> </P>
+               <P>Clicks Per Second: <span id="cps">0</span></P>
+            </div>
+          <br>
 
+          <div class="clickercontainer">
+            <img src="images/exploding dinosaur.png" onclick="addToScore(1)">
+          </div>
+          
+        </center>
+    </div>
 
-    <button onclick="cursor__buy()">Dinosaur Hands [<span id="cursorcost">15</span>] == <span id="cursors">0</span> </button>
-    <button onclick="dinfeet__buy()">Dinosaur Feet [<span id="dinfeetcost">100</span>] == <span id="dinfeet">0</span> </button>
+    <div class="sectionright">
+        <button onclick="cursor__buy()">Dinosaur Hands [<span id="cursorcost">15</span>] == <span id="cursors">0</span> </button>
+        <button onclick="dinfeet__buy()">Dinosaur Feet [<span id="dinfeetcost">100</span>] == <span id="dinfeet">0</span> </button>
+    </div>
     
     <script>
         var score = 0;
