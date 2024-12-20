@@ -30,7 +30,7 @@ button {
 
 .clickercontainer img {
   position: relative;
-  transition: all .2x ease-in-out;
+  transition: all .2s ease-in-out;
 }
 
 .clickercontainer img:hover { transform: scale(1.10); }
