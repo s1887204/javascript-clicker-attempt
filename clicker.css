@@ -8,3 +8,9 @@ button {
   display: inline-block;
   font-size: 18px;
 }
+
+.infotext {
+  font-size: 40px;
+  align-self: center;
+  text-align: center;
+}
