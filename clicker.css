@@ -9,12 +9,12 @@ button {
   font-size: 18px;
 }
 
-.dino {
-  padding: inherit;
-  margin:auto;
-  width: 256px;
-  height: 256px;
-  display: block;
+.sectionright {
+  float: right;
+}
+
+.sectionleft {
+  float: left;
 }
 
 .infotext {
