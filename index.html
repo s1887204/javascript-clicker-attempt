@@ -8,12 +8,12 @@
     <div class="sectionleft">
         <center>
           <div class="scorecontainer">
-            <P>Score: <span id="score">0</span></P>
+            <P>Clicks: <span id="score">0</span></P>
             <P>Clicks Per Second: <span id="cps">0</span></P>
           </div>
 
           <div class="clickercontainer">
-            <img src="images/click_button.jpg" onclick="addToScore(1)">
+            <img src="images/click_button.jpg" onclick="addToScore(clickpower)">
           </div>
         </center>
     </div>
@@ -40,15 +40,27 @@
             </td>
             <td id="amount"><span id="curminers">0</span></td>
           </tr>
-      </table>
+        </table>
+
+        <table class="shopButton" onclick="curminer__buy()">
+          <tr>
+            <td id="image"><img src="images/no_texture.png"></td>
+            <td id="nameAndCost">
+              <p>Cursor Gremlins</p>
+              <p><span id="curminercost">100</span> Clicks</p>
+            </td>
+            <td id="amount"><span id="curminers">0</span></td>
+          </tr>
+        </table>
     </div>
     
     <script>
         var score = 0;
+        var clickpower = 1;
       
         // CURSOR //
         // CURSOR //
-        var cursor__cps = .1;
+        var cursor__cps = .5;
         var cursor__cost = 15;
         var cursor__amount = 0;
         function cursor__buy() {
