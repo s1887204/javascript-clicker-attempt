@@ -13,7 +13,7 @@
           </div>
 
           <div class="clickercontainer">
-            <img src="images/click_button.jpg" onclick="addToScore(clickpower)">
+            <img src="images/click_button.jpg" onclick="addToScore(1)">
           </div>
         </center>
     </div>
@@ -41,22 +41,23 @@
             <td id="amount"><span id="curminers">0</span></td>
           </tr>
         </table>
-
-        <table class="shopButton" onclick="curminer__buy()">
+        
+        <table class="shopButton" onclick="curgrem__buy()">
           <tr>
             <td id="image"><img src="images/no_texture.png"></td>
             <td id="nameAndCost">
               <p>Cursor Gremlins</p>
-              <p><span id="curminercost">100</span> Clicks</p>
+              <p><span id="curgremcost">500</span> Clicks</p>
             </td>
-            <td id="amount"><span id="curminers">0</span></td>
+            <td id="amount"><span id="curgrems">0</span></td>
           </tr>
         </table>
     </div>
     
     <script>
         var score = 0;
-        var clickpower = 1;
+        var score_cps = 0;
+        var clickpower = 2;
       
         // CURSOR //
         // CURSOR //
@@ -69,43 +70,75 @@
             cursor__amount = cursor__amount + 1;
             cursor__cost = Math.round(cursor__cost * 1.15);
             
-            update_screen()
+            recalculate_cps()
           }
         }
 
         // CURSOR MINER //
-        var curminer__cps = 5;
-        var curminer__cost = 100;
+        var curminer__cps = 10;
+        var curminer__cost = 50;
         var curminer__amount = 0;
         function curminer__buy() {
             if (score >= curminer__cost) {
               score = score - curminer__cost;
               curminer__amount = curminer__amount + 1;
-              curminer__cost = Math.round(curminer__cost * 1.25);
+              curminer__cost = Math.round(curminer__cost * 1.15);
   
-              update_screen()
+              recalculate_cps()
             }
+        }
+        
+        // CURSOR GREMLIN //
+        var curgrem__cps = 100;
+        var curgrem__cost = 500;
+        var curgrem__amount = 0
+        function curgrem__buy() {
+          if (score >= curgrem__cost) {
+            score = score - curgrem__cost;
+            curgrem__amount = curminer__amount + 1;
+            curminer__cost = Math.round(curgrem__cost * 1.15);
+
+            recalculate_cps()
+          }
         }
 
         // CLICKING //
         // CLICKING //
         function addToScore(amount) {
-          score = score + 1;
+          score = score + (amount * clickpower);
           document.getElementById("score").innerHTML = Math.round(score);
         }
 
         // SET INTERVAL //
         // SET INTERVAL //
         setInterval(function() {
-          score = score + (cursor__amount * cursor__cps) + (curminer__amount * curminer__cps);
+          score = score + score_cps;
 
           document.getElementById("score").innerHTML = Math.round(score);
         }, 1000) // 1000 MS = 1 Second
 
+      function recalculate_cps() {
+        // RESET CPS //
+        score_cps = 0;
+
+        // CURSOR //
+        score_cps = score_cps + (cursor__amount * cursor__cps);
+
+        // CURSOR MINER //
+        score_cps = score_cps + (curminer__amount * curminer__cps);
+
+        // CURSOR GREMLIN //
+        score_cps = score_cps + (curgrem__amount * curgrem__cps);
+
+
+        // UPDATING SCREEN //
+        update_screen()
+      }
+
       // UPDATE SCREEN //
       function update_screen() {
         document.getElementById("score").innerHTML = Math.round(score); 
-        document.getElementById("cps").innerHTML = (cursor__amount * cursor__cps) + (curminer__amount * curminer__cps)
+        document.getElementById("cps").innerHTML = score_cps;
         
         // CURSOR REFRESH //
         document.getElementById("cursorcost").innerHTML = cursor__cost;
@@ -114,6 +147,10 @@
         // CURSOR MINER REFRESH //
         document.getElementById("curminercost").innerHTML = curminer__cost;
         document.getElementById("curminers").innerHTML = curminer__amount;
+
+        // CURSOR GREMLIN REFRESH //
+        document.getElementById("curgremcost").innerHTML = curgrem__cost;
+        docuemnt.getElementById("curgrems").innerHTML = curgrem__amount;
       }
     </script>
   </body>
