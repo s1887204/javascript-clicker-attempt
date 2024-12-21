@@ -1,4 +1,5 @@
-button {
+/* .oldbutton is deprecated for now!!! */
+.oldbutton { 
   background-color: #04AA6D; /* Green */
   border: none;
   color: white;
@@ -20,33 +21,37 @@ button {
 }
 
 .scorecontainer {
-  background-color: rgb(230, 230, 230, 0.6);
-  width: 50%;
-  padding: 20px;
-  border-radius: 10px;
-  font-size: 24px;
+  background-color: rgba(110, 95, 51, 0.6);
+  width: 95%;
+  padding: 5px;
+  border-radius: 15px;
+  font-size: 36px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   font-weight: bold;
 }
 
 .clickercontainer img {
+  width:512px;
+  height:256px;
+
   position: relative;
-  transition: all .2s ease-in-out;
+  transition: all .15s ease-in-out;
 }
 
-.clickercontainer img:hover { transform: scale(1.10); }
-.clickercontainer img:active { transform: scale(0.99); }
+.clickercontainer img:hover { transform: scale(1.05); }
+.clickercontainer img:active { transform: scale(0.95); }
 
 .shopButton {
-  background-color: #b5b5b5;
-  transition: all .2s ease-in-out;
+  background-color: #8f8061;
+  transition: all .3s ease-in-out;
   border-radius: 10px;
   width: 100%;
-  margin: 10px 0px 10px 0px
+  margin: 15px 0px 10px 0px;
 }
 
 .shopButton:hover {
-  background-color: #c7c7c7;
-  transition: all .2s ease-in-out;
+  background-color: #ceb990;
+  transition: all .3s ease-in-out;
 }
 
 .shopButton #image {
@@ -54,22 +59,25 @@ button {
 }
 
 .shopButton img {
-  height: 64px;
-  width: 64px;
+  height: 96px;
+  width: 96px;
 }
 
 .shopButton #nameAndCost p {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
   margin: 0px;
   width: 60%;
 }
 
-.shopButton #nameAndCost p:first_of_type {
-  font-size: 36px
+.shopButton #nameAndCost p:first-of-type {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 19px
 }
 
 .shopButton #amount {
-  font-size: 64px;
+  font-size: 56px;
   color: #595959;
-  font-family: roboto;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   width: 15%;
 }
