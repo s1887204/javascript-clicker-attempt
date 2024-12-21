@@ -62,7 +62,6 @@
     <script>
         var game_data = {
           score: 0,
-          clickpower: 1,
 
           cursor__amount: 0,
           cursor__cost: 15,
@@ -75,6 +74,7 @@
         }
 
         var score_cps = 0;
+        var click_power = 1;
       
         // CURSOR //
         // CURSOR //
@@ -116,7 +116,7 @@
         // CLICKING //
         // CLICKING //
         function addToScore(amount) {
-          game_data.score = game_data.score + (amount * game_data.clickpower);
+          game_data.score = game_data.score + (amount * click_power);
           document.getElementById("score").innerHTML = Math.round(game_data.score);
         }
 
@@ -170,6 +170,12 @@
           update_screen()
         }
 
+        // Recalculates Click Power //
+        function recalculate_click_power() {
+          click_power = 1;
+        }
+
+        
         // UPDATE SCREEN //
         function update_screen() {
           document.getElementById("score").innerHTML = Math.round(game_data.score); 
