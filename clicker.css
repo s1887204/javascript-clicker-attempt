@@ -66,7 +66,7 @@
 }
 
 .shopButton:hover {
-  background-color: #b39e75;
+  background-color: #b1a07d;
   transition: all .3s ease-in-out;
 }
 
@@ -81,7 +81,7 @@
 
 .shopButton #nameAndCost p {
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  color: #caa65c;
+  color: #dabc81;
 
   margin: 0px;
   width: 60%;
@@ -89,7 +89,7 @@
 
 .shopButton #nameAndCost p:first-of-type {
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  font-size: 20px
+  font-size: 24px
 }
 
 .shopButton #amount {

@@ -15,7 +15,6 @@
           <div class="clickercontainer unselectable">
             <img src="images/click_button.jpg" onclick="addToScore(1)">
           </div>
-          <button onclick="save_game();">Save Game</button>
         </center>
 
         <div class="sectionFooter">
@@ -107,8 +106,8 @@
         function curgrem__buy() {
           if (game_data.score >= game_data.curgrem__cost) {
             game_data.score = game_data.score - game_data.curgrem__cost;
-            game_data.curgrem__amount = game_data.curminer__amount + 1;
-            game_data.curminer__cost = Math.round(game_data.curgrem__cost * 1.15);
+            game_data.curgrem__amount = game_data.curgrem__amount + 1;
+            game_data.curgrem__cost = Math.round(game_data.curgrem__cost * 1.15);
 
             recalculate_cps()
           }
@@ -136,10 +135,23 @@
         }, 30000) // 30000 = 30 Seconds
 
         // ON THE WINDOW BEING LOADED //
+        // ON THE WINDOW BEING LOADED //
         window.onload = function() {
           load_game();
         }
 
+        // ON A KEY BEING DOWN //
+        // ON A KEY BEING DOWN //
+        // ON A KEY BEING DOWN //
+        document.addEventListener("keydown", function(event) {
+          if (event.ctrlKey && event.which == 83) { // Key = CTRL + S
+            event.preventDefault();
+            save_game();
+          }
+
+        }, false);
+
+        // Recalculates the CPS Value //
         function recalculate_cps() {
           // RESET CPS //
           score_cps = 0;
@@ -187,10 +199,6 @@
             if (!(game_data[key_index] == key_value)) {
               game_data[key_index] = key_value;
             }
-
-            // if (game_data[key_index] !== key_value) {
-            //   game_data[key_index] = key_value;
-            // }
 
             console.log(key_index, key_value);
           }
