@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="clicker.css">
   </head>
 
-  <body style="background-color:#dbcdb0">
+  <body style="background-color:#aca08a">
     <div class="sectionleft">
         <center>
           <div class="scorecontainer unselectable">
@@ -13,7 +13,7 @@
           </div>
 
           <div class="clickercontainer unselectable">
-            <img src="images/click_button.jpg" onclick="addToScore(1)">
+            <img src="images/new_click_button.png" onclick="addToScore(1)">
           </div>
         </center>
 
@@ -147,8 +147,11 @@
           if (event.ctrlKey && event.which == 83) { // Key = CTRL + S
             event.preventDefault();
             save_game();
+          } else if (event.ctrlKey && event.which == 81) { // Key = CTRL + Q
+            event.preventDefault();
+            reset_game_save();
           }
-
+ 
         }, false);
 
         // Recalculates the CPS Value //
@@ -214,6 +217,14 @@
 
         function save_game() {
           localStorage.setItem("game_save", JSON.stringify(game_data))
+        }
+
+        function reset_game_save() {
+          if (confirm("Are you really sure you want to reset your game data?")) {
+            var new_game_save = {};
+            localStorage.setItem("game_save", JSON.stringify(new_game_save))
+            location.reload()
+          }
         }
       
     </script>
