@@ -7,15 +7,21 @@
   <body style="background-color:#dbcdb0">
     <div class="sectionleft">
         <center>
-          <div class="scorecontainer">
+          <div class="scorecontainer unselectable">
             <P>Clicks: <span id="score">0</span></P>
             <P>Clicks Per Second: <span id="cps">0</span></P>
           </div>
 
-          <div class="clickercontainer">
+          <div class="clickercontainer unselectable">
             <img src="images/click_button.jpg" onclick="addToScore(1)">
           </div>
+          <button onclick="save_game();">Save Game</button>
         </center>
+
+        <div class="sectionFooter">
+            <p>javascript-clicker-attempt (12/21/24 Build)</p>
+            <p>made by gord 😎</p>
+        </div>
     </div>
 
     <div class="sectionright">
@@ -55,20 +61,30 @@
     </div>
     
     <script>
-        var score = 0;
+        var game_data = {
+          score: 0,
+          clickpower: 1,
+
+          cursor__amount: 0,
+          cursor__cost: 15,
+
+          curminer__amount: 0,
+          curminer__cost: 100,
+
+          curgrem__amount: 0,
+          curgrem__cost: 500,
+        }
+
         var score_cps = 0;
-        var clickpower = 2;
       
         // CURSOR //
         // CURSOR //
         var cursor__cps = .5;
-        var cursor__cost = 15;
-        var cursor__amount = 0;
         function cursor__buy() {
-          if (score >= cursor__cost) {
-            score = score - cursor__cost;
-            cursor__amount = cursor__amount + 1;
-            cursor__cost = Math.round(cursor__cost * 1.15);
+          if (game_data.score >= game_data.cursor__cost) {
+            game_data.score = game_data.score - game_data.cursor__cost;
+            game_data.cursor__amount = game_data.cursor__amount + 1;
+            game_data.cursor__cost = Math.round(game_data.cursor__cost * 1.15);
             
             recalculate_cps()
           }
@@ -76,13 +92,11 @@
 
         // CURSOR MINER //
         var curminer__cps = 10;
-        var curminer__cost = 50;
-        var curminer__amount = 0;
         function curminer__buy() {
-            if (score >= curminer__cost) {
-              score = score - curminer__cost;
-              curminer__amount = curminer__amount + 1;
-              curminer__cost = Math.round(curminer__cost * 1.15);
+            if (game_data.score >= game_data.curminer__cost) {
+              game_data.score = game_data.score - game_data.curminer__cost;
+              game_data.curminer__amount = game_data.curminer__amount + 1;
+              game_data.curminer__cost = Math.round(game_data.curminer__cost * 1.15);
   
               recalculate_cps()
             }
@@ -90,13 +104,11 @@
         
         // CURSOR GREMLIN //
         var curgrem__cps = 100;
-        var curgrem__cost = 500;
-        var curgrem__amount = 0
         function curgrem__buy() {
-          if (score >= curgrem__cost) {
-            score = score - curgrem__cost;
-            curgrem__amount = curminer__amount + 1;
-            curminer__cost = Math.round(curgrem__cost * 1.15);
+          if (game_data.score >= game_data.curgrem__cost) {
+            game_data.score = game_data.score - game_data.curgrem__cost;
+            game_data.curgrem__amount = game_data.curminer__amount + 1;
+            game_data.curminer__cost = Math.round(game_data.curgrem__cost * 1.15);
 
             recalculate_cps()
           }
@@ -105,53 +117,91 @@
         // CLICKING //
         // CLICKING //
         function addToScore(amount) {
-          score = score + (amount * clickpower);
-          document.getElementById("score").innerHTML = Math.round(score);
+          game_data.score = game_data.score + (amount * game_data.clickpower);
+          document.getElementById("score").innerHTML = Math.round(game_data.score);
         }
 
         // SET INTERVAL //
         // SET INTERVAL //
         setInterval(function() {
-          score = score + score_cps;
+          game_data.score = game_data.score + score_cps;
 
-          document.getElementById("score").innerHTML = Math.round(score);
+          document.getElementById("score").innerHTML = Math.round(game_data.score);
         }, 1000) // 1000 MS = 1 Second
 
-      function recalculate_cps() {
-        // RESET CPS //
-        score_cps = 0;
+        // SET INTERVAL SAVING GAME //
+        // SET INTERVAL SAVING GAME //
+        setInterval(function() {
+          save_game();
+        }, 30000) // 30000 = 30 Seconds
 
-        // CURSOR //
-        score_cps = score_cps + (cursor__amount * cursor__cps);
+        // ON THE WINDOW BEING LOADED //
+        window.onload = function() {
+          load_game();
+        }
 
-        // CURSOR MINER //
-        score_cps = score_cps + (curminer__amount * curminer__cps);
+        function recalculate_cps() {
+          // RESET CPS //
+          score_cps = 0;
 
-        // CURSOR GREMLIN //
-        score_cps = score_cps + (curgrem__amount * curgrem__cps);
+          // CURSOR //
+          score_cps = score_cps + (game_data.cursor__amount * cursor__cps);
+
+          // CURSOR MINER //
+          score_cps = score_cps + (game_data.curminer__amount * curminer__cps);
+
+          // CURSOR GREMLIN //
+          score_cps = score_cps + (game_data.curgrem__amount * curgrem__cps);
 
 
-        // UPDATING SCREEN //
-        update_screen()
-      }
+          // UPDATING SCREEN //
+          update_screen()
+        }
 
-      // UPDATE SCREEN //
-      function update_screen() {
-        document.getElementById("score").innerHTML = Math.round(score); 
-        document.getElementById("cps").innerHTML = score_cps;
-        
-        // CURSOR REFRESH //
-        document.getElementById("cursorcost").innerHTML = cursor__cost;
-        document.getElementById("cursors").innerHTML = cursor__amount;
+        // UPDATE SCREEN //
+        function update_screen() {
+          document.getElementById("score").innerHTML = Math.round(game_data.score); 
+          document.getElementById("cps").innerHTML = score_cps;
+          
+          // CURSOR REFRESH //
+          document.getElementById("cursorcost").innerHTML = game_data.cursor__cost;
+          document.getElementById("cursors").innerHTML = game_data.cursor__amount;
 
-        // CURSOR MINER REFRESH //
-        document.getElementById("curminercost").innerHTML = curminer__cost;
-        document.getElementById("curminers").innerHTML = curminer__amount;
+          // CURSOR MINER REFRESH //
+          document.getElementById("curminercost").innerHTML = game_data.curminer__cost;
+          document.getElementById("curminers").innerHTML = game_data.curminer__amount;
 
-        // CURSOR GREMLIN REFRESH //
-        document.getElementById("curgremcost").innerHTML = curgrem__cost;
-        docuemnt.getElementById("curgrems").innerHTML = curgrem__amount;
-      }
+          // CURSOR GREMLIN REFRESH //
+          document.getElementById("curgremcost").innerHTML = game_data.curgrem__cost;
+          document.getElementById("curgrems").innerHTML = game_data.curgrem__amount;
+        }
+
+
+        // SAVE / LOAD SYSTEM //
+        function load_game() {
+          var saved_game = JSON.parse(localStorage.getItem("game_save"))
+          
+          for (const key_index in saved_game) {
+            const key_value = saved_game[key_index];
+            
+            if (!(game_data[key_index] == key_value)) {
+              game_data[key_index] = key_value;
+            }
+
+            // if (game_data[key_index] !== key_value) {
+            //   game_data[key_index] = key_value;
+            // }
+
+            console.log(key_index, key_value);
+          }
+
+          recalculate_cps();
+        }
+
+        function save_game() {
+          localStorage.setItem("game_save", JSON.stringify(game_data))
+        }
+      
     </script>
   </body>
   

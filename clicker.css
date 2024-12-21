@@ -10,6 +10,7 @@
   font-size: 18px;
 }
 
+/* general stuff */
 .sectionright {
   float: right;
   width: 20%;
@@ -19,6 +20,21 @@
   float: left;
   width: 80%;
 }
+
+.unselectable {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none; /* if not using chromium broswer */
+  user-select: none;
+}
+
+.sectionFooter {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  margin-top: 15%;
+  padding: 5px;
+}
+
+/* game stuff */
 
 .scorecontainer {
   background-color: rgba(110, 95, 51, 0.6);
