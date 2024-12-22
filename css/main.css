@@ -45,15 +45,16 @@
 /* game stuff */
 
 .scorecontainer {
-  background-color: #8a7c5e;
+  background-color: #9f8f6e;
   width: 90%;
-  padding: 5px;
-  border-radius: 10px;
+  padding: 3px;
+  border-radius: 15px;
   font-size: 36px;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   font-weight: bold;
 }
 
+/* clicker stuff */
 /* .clickercontainer img {
   width:512px;
   height:256px;
@@ -157,4 +158,14 @@
   background-color: #a59169;
   border-radius: 15px;
   margin: 10px 0px 15px 0px;
+}
+
+#notificationContainer > .notification {
+  background-color: #a59169;
+  border-radius: 10px;
+  width: 55%;
+  padding: 5px;
+  font-size: 20px;
+  color: #554c39;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }

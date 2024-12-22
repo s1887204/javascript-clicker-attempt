@@ -19,7 +19,7 @@ var game = {
     getScorePerSecond: function() {
       var scorePerSecond = 0;
       for (i = 0; i < buildings.name.length; i++) {
-        scorePerSecond += buildings.incomeidle[i] * buildings.count[i];
+        scorePerSecond += buildings.base_incomeidle[i] * buildings.count[i];
       }
       return scorePerSecond;
     }
@@ -89,17 +89,14 @@ var game = {
       "bdgs/cursor_gremlin_icon.png",
     ],
     count: [0, 0, 0],
-    incomeidle: [
-      1,
-      25,
-      100
-    ],
+    incomeidle: [],
     base_incomeidle: [
       1,
       25,
       100
     ],
-    cost: [
+    cost: [],
+    base_cost: [
       50,
       200,
       500,
@@ -109,7 +106,7 @@ var game = {
       if (game.score >= this.cost[index]) {
         game.score -= this.cost[index];
         this.count[index]++;
-        this.cost[index] = Math.ceil(this.cost[index] * 1.15); // PURCHASE MULTIPLIER
+        this.cost[index] = Math.ceil((this.base_cost[index] * this.count[index]) * 1.15); // PURCHASE MULTIPLIER
         display.updateScore();
         display.updateShop();
         display.updateUpgrades();
@@ -218,6 +215,8 @@ var game = {
       achievements_awarded : achievements.awarded,
     };
     localStorage.setItem("gameSave", JSON.stringify(game_save));
+    console.log("Game saved!")
+    notify("Saved game...", 3000)
   };
 
   // LOAD GAME //
@@ -233,13 +232,24 @@ var game = {
       if (typeof saved_game.buildings_counts !== "undefined") {
         for (i = 0; i < saved_game.buildings_counts.length; i++) {
           buildings.count[i] = saved_game.buildings_counts[i];
-        
+          console.log(buildings.count[i])
+ 
           if (buildings.count[i] >= 1) {
-            buildings.cost[i] = Math.ceil((buildings.count[i] * buildings.cost[i]) * 1.15); // PURCHASE MULTIPLIER
+            buildings.cost[i] = Math.ceil((buildings.count[i] * buildings.base_cost[i]) * 1.15); // PURCHASE MULTIPLIER
             buildings.incomeidle[i] = (buildings.count[i] * buildings.base_incomeidle[i])
+          } else {
+            buildings.cost[i] = Math.ceil((buildings.base_cost[i])); // PURCHASE MULTIPLIER
+            buildings.incomeidle[i] = (buildings.base_incomeidle[i])
           }
         }
-      };
+      } else {
+        for (i = 0; i < buildings.name.length; i++) {
+          buildings.cost[i] = buildings.base_cost[i];
+          buildings.incomeidle[i] = buildings.base_incomeidle[i];
+        }
+  
+        notify("Welcome to javascript-clicker-attempt!", 6000)
+      }
       if (typeof saved_game.upgrades_purchased !== "undefined") {
         for (i = 0; i < saved_game.upgrades_purchased.length; i++) {
           upgrades.purchased[i] = saved_game.upgrades_purchased[i];
@@ -250,7 +260,8 @@ var game = {
           achievements.awarded[i] = saved_game.achievements_awarded[i];
         }
       };
-    }
+      notify("Successfully loaded game...", 4500)
+    };
   };
   
   // RESET GAME //
@@ -348,6 +359,26 @@ var game = {
 
     // slowly fade the element
     fade_out(element, 6000, 0.5, function() {
+      element.remove()
+    })
+  }
+  
+  // NOTIFICATION SYSTEM //
+  // NOTIFICATION SYSTEM //
+  function notify(msg, duration) {
+    // gets notification container;
+    let container = document.getElementById("notificationContainer");
+
+    // make new notification label
+    let element = document.createElement("div");
+    element.textContent = msg;
+    element.classList.add("unselectable", "notification");
+    
+    // append notification label to the container
+    container.appendChild(element);
+
+    // slowly fade the element
+    fade_out(element, duration, 0, function() {
       element.remove()
     })
   }
