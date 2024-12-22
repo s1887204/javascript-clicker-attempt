@@ -88,6 +88,11 @@ var game = {
       25,
       100
     ],
+    base_incomeidle: [
+      1,
+      25,
+      100
+    ],
     cost: [
       50,
       200,
@@ -98,7 +103,7 @@ var game = {
       if (game.score >= this.cost[index]) {
         game.score -= this.cost[index];
         this.count[index]++;
-        this.cost[index] = Math.ceil(this.cost[index] * 1.15);
+        this.cost[index] = Math.ceil(this.cost[index] * 1.15); // PURCHASE MULTIPLIER
         display.updateScore();
         display.updateShop();
         display.updateUpgrades();
@@ -147,40 +152,40 @@ var game = {
     name: [
         "A new budget beginning...",
         "Lend a hand?",
-
+        "Mutated Hands",
         "Clicker Thousand-er.",
     ],
     description: [
         "Start your journey by clicking the button once.",
         "Buy a cursor to help you.",
-
+        "Buy over 100 cursors",
         "Get 1000 clicks.",
     ],
     image: [
         "no_texture.png",
         "no_texture.png",
-
+        "no_texture.png",
         "no_texture.png",
     ],
     type: [
         "click",
         "building",
-
+        "building",
         "score",
     ],
     requirement: [
         1,
         1,
-
+        100,
         1000,
     ],
     objectIndex: [
         -1,
-        0, 
-
+        0,
+        0,
         -1
     ],
-    awarded: [false, false, false],
+    awarded: [false, false, false, false],
 
     earn: function(index) {
         console.log("unlocking achievement: " + this.name[index])
@@ -188,7 +193,7 @@ var game = {
         display.updateAchievements();
     },
   }
-
+  
   function save_game() {
     var game_save = {
       score: game.score,
@@ -197,11 +202,9 @@ var game = {
       click_value: game.clickValue,
       version: game.version,
       buildings_counts: buildings.count,
-      buildings_income: buildings.incomeidle,
-      buildings_cost: buildings.cost,
       upgrades_purchased: upgrades.purchased,
       achievements_awarded : achievements.awarded,
-    }
+    };
     localStorage.setItem("gameSave", JSON.stringify(game_save));
   };
 
@@ -216,16 +219,11 @@ var game = {
       if (typeof saved_game.buildings_counts !== "undefined") {
         for (i = 0; i < saved_game.buildings_counts.length; i++) {
           buildings.count[i] = saved_game.buildings_counts[i];
-        }
-      };
-      if (typeof saved_game.buildings_cost !== "undefined") {
-        for (i = 0; i < saved_game.buildings_cost.length; i++) {
-          buildings.cost[i] = saved_game.buildings_cost[i];
-        }
-      };
-      if (typeof saved_game.buildings_income !== "undefined") {
-        for (i = 0; i < saved_game.buildings_income.length; i++) {
-          buildings.incomeidle[i] = saved_game.buildings_income[i];
+        
+          if (buildings.count[i] >= 1) {
+            buildings.cost[i] = Math.ceil((buildings.count[i] * buildings.cost[i]) * 1.15); // PURCHASE MULTIPLIER
+            buildings.incomeidle[i] = (buildings.count[i] * buildings.base_incomeidle[i])
+          }
         }
       };
       if (typeof saved_game.upgrades_purchased !== "undefined") {
@@ -252,7 +250,7 @@ var game = {
   setInterval(function() {
     for (i = 0; i < achievements.name.length; i++) {
         if (!achievements.awarded[i]) {
-            if (achievements.type[i] == "score" && game.totalScore >= achievements.requirement[i]) achievements.earn(i);
+            if (achievements.type[i] == "score" && game.score >= achievements.requirement[i]) achievements.earn(i);
             else if (achievements.type[i] == "click" && game.totalClicks >= achievements.requirement[i]) achievements.earn(i);
             else if (achievements.type[i] == "building" && buildings.count[achievements.objectIndex[i]] >= achievements.requirement[i]) achievements.earn(i);
         }
