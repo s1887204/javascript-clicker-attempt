@@ -1,4 +1,3 @@
-/* .oldbutton is deprecated for now!!! */
 .oldbutton { 
   background-color: #04AA6D; /* Green */
   border: none;
@@ -55,7 +54,7 @@
   font-weight: bold;
 }
 
-.clickercontainer img {
+/* .clickercontainer img {
   width:512px;
   height:256px;
 
@@ -64,7 +63,29 @@
 }
 
 .clickercontainer img:hover { transform: scale(1.05); }
-.clickercontainer img:active { transform: scale(0.95); }
+.clickercontainer img:active { transform: scale(0.95); } */
+
+#gameclicker {
+  background-image: url('/images/new_click_button.png');
+  background-size: contain;
+  position: relative;
+  transition: all .25s ease-in-out;
+  height: 256px;
+  width: 512px;
+
+}
+
+#gameclicker:hover{ transform: scale(1.10) }
+#gameclicker:active{ transform: scale(0.99) }
+
+#gameclicker > .number {
+  z-index: 99;
+  font-size: 28px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+  color: #a89a81;
+  position: absolute;
+}
 
 /* shop stuff */
 

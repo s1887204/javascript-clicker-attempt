@@ -1,3 +1,5 @@
+// GAME //
+// GAME //
 var game = {
     score: 0,
     totalClicks: 0,
@@ -23,6 +25,8 @@ var game = {
     }
   };
 
+  // UPGRADES //
+  // UPGRADES //
   var upgrades = {
     name: [
         "Stone Fingers",
@@ -71,6 +75,8 @@ var game = {
     }
   };
 
+  // BUILDINGS //
+  // BUILDINGS //
   var buildings = {
     name: [
       "Cursor",
@@ -111,6 +117,8 @@ var game = {
     }
   };
 
+  // DISPLAY //
+  // DISPLAY //
   var display = {
     updateScore: function() {
       document.getElementById("score").innerHTML = game.score;
@@ -146,8 +154,10 @@ var game = {
             }
         }
     },
-  };
-
+  }; 
+  
+  // ACHIEVEMENTS //
+  // ACHIEVEMENTS //
   var achievements = {
     name: [
         "A new budget beginning...",
@@ -194,6 +204,8 @@ var game = {
     },
   }
   
+  // SAVE GAME //
+  // SAVE GAME //
   function save_game() {
     var game_save = {
       score: game.score,
@@ -208,6 +220,8 @@ var game = {
     localStorage.setItem("gameSave", JSON.stringify(game_save));
   };
 
+  // LOAD GAME //
+  // LOAD GAME //
   function load_game() {
     var saved_game = JSON.parse(localStorage.getItem("gameSave"))
     if (localStorage.getItem("gameSave") !== null) {
@@ -239,6 +253,8 @@ var game = {
     }
   };
   
+  // RESET GAME //
+  // RESET GAME //
   function reset_game_save() {
       if (confirm("Are you really sure you want to reset your game data?")) {
         var new_game_save = {};
@@ -247,6 +263,8 @@ var game = {
       };
   };
 
+  // ACHIEVEMENT POLLING + CPS //
+  // ACHIEVEMENT POLLING + CPS //
   setInterval(function() {
     for (i = 0; i < achievements.name.length; i++) {
         if (!achievements.awarded[i]) {
@@ -259,20 +277,90 @@ var game = {
     game.addToScore(game.getScorePerSecond());
   }, 1000); // 1000 MS = 1 Second
 
+  // DISPLAY UPDATE //
+  // DISPLAY UPDATE //
   setInterval(function() {
     display.updateScore();
     display.updateUpgrades();
   }, 10000) // 10000 MS = 10 Seconds
 
+  // GAME SAVING //
+  // GAME SAVING //
   setInterval(function() {
     save_game();
   }, 30000); // 30000 MS = 30 Seconds
 
-  document.getElementById("gameclicker").addEventListener("click", function() {
+  // FADE OUT FUNC //
+  // FADE OUT FUNC //
+  function fade_out(element, duration, final_opacity, call_back) {
+    let opacity = 1;
+
+    let elementFadingInterval = window.setInterval(function() {
+      opacity -= 50 / duration
+
+      if (opacity <= final_opacity) {
+        clearInterval(elementFadingInterval)
+        call_back();
+      }
+
+      element.style.opacity = opacity
+    }, 50) // 50 MS = 0.05 seconds
+  }
+
+  // RNG //
+  // RNG //
+  function give_random_number(min, max) {
+    return Math.round(Math.random() * (max - min) + min);
+  }
+
+  // CREATE NUMBER ON CLICK //
+  // CREATE NUMBER ON CLICK //
+  function createNumberOnClicker(event) {
+    // grab the clicker
+    let clicker = document.getElementById("gameclicker");
+
+    // get position the clicker was clicked in
+    let clickerOffset = clicker.getBoundingClientRect()
+    let position = {
+      x: event.pageX - clickerOffset.left + give_random_number(-10, 10),
+      y: event.pageY - clickerOffset.top,
+    }
+
+    // make click value label
+    let element = document.createElement("div");
+    element.textContent = "+ " + game.clickValue;
+    element.classList.add("number", "unselectable");
+
+    // give click value label the position of the mouse
+    element.style.left = position.x + "px";
+    element.style.top = position.y + "px";
+
+    // append clicker label to the clicker
+    clicker.appendChild(element);
+
+    // slowly rise the element
+    let movementInterval = window.setInterval(function(){
+      if (typeof element == "undefined" && element == null) clearInterval(movementInterval);
+
+      position.y -= 1.5;
+      element.style.top = position.y + "px";
+    }, 10); // 10 MS = 0.01 seconds.
+
+    // slowly fade the element
+    fade_out(element, 6000, 0.5, function() {
+      element.remove()
+    })
+  }
+
+  document.getElementById("gameclicker").addEventListener("click", function(event) {
     game.totalClicks++;
     game.click()
+
+    createNumberOnClicker(event)
   }, false);
 
+  // ON WEBSITE LOADED //
+  // ON WEBSITE LOADED //
   window.onload = function() {
     load_game();
     display.updateScore();
@@ -281,6 +369,8 @@ var game = {
     display.updateAchievements();
   };
 
+  // ON KEY DOWN EVENT //
+  // ON KEY DOWN EVENT //
   document.addEventListener("keydown", function(event) {
       if (event.ctrlKey && event.which == 83) { // Key = CTRL + S
         event.preventDefault();
