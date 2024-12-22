@@ -172,7 +172,7 @@ var game = {
         "Get 1000 clicks.",
     ],
     image: [
-        "no_texture.png",
+        "achvs/new_beginning.png",
         "no_texture.png",
         "no_texture.png",
         "no_texture.png",
