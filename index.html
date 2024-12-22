@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <HTML>
   <head>
     <title>Clicker Game Test</title>
@@ -9,11 +10,11 @@
         <center>
           <div class="scorecontainer unselectable">
             <P>Clicks: <span id="score">0</span></P>
-            <P>Clicks Per Second: <span id="cps">0</span></P>
+            <P>Clicks Per Second: <span id="scorepersecond">0</span></P>
           </div>
 
           <div class="clickercontainer unselectable">
-            <img src="images/new_click_button.png" onclick="addToScore(1)">
+            <img src="images/new_click_button.png" onclick="game.click()">
           </div>
         </center>
 
@@ -23,211 +24,9 @@
         </div>
     </div>
 
-    <div class="sectionright">
-        <table class="shopButton" onclick="cursor__buy()">
-            <tr>
-              <td id="image"><img src="images/upg/cursor_icon.png"></td>
-              <td id="nameAndCost">
-                  <p>Cursor</p>
-                  <p><span id="cursorcost">15</span> Clicks</p>
-              </td>
-              
-              <td id="amount"><span id="cursors">0</span></td>
-            </tr>
-        </table>
-
-        <table class="shopButton" onclick="curminer__buy()">
-          <tr>
-            <td id="image"><img src="images/no_texture.png"></td>
-            <td id="nameAndCost">
-                <p>Cursor Miners</p>
-                <p><span id="curminercost">100</span> Clicks</p>
-            </td>
-            <td id="amount"><span id="curminers">0</span></td>
-          </tr>
-        </table>
-        
-        <table class="shopButton" onclick="curgrem__buy()">
-          <tr>
-            <td id="image"><img src="images/no_texture.png"></td>
-            <td id="nameAndCost">
-              <p>Cursor Gremlins</p>
-              <p><span id="curgremcost">500</span> Clicks</p>
-            </td>
-            <td id="amount"><span id="curgrems">0</span></td>
-          </tr>
-        </table>
-    </div>
+    <div class="sectionright" id="shopContainer"></div>
     
-    <script>
-        var game_data = {
-          score: 0,
-
-          cursor__amount: 0,
-          cursor__cost: 75,
-
-          curminer__amount: 0,
-          curminer__cost: 250,
-
-          curgrem__amount: 0,
-          curgrem__cost: 1000,
-        }
-
-        var score_cps = 0;
-        var click_power = 1;
-      
-        // CURSOR //
-        // CURSOR //
-        var cursor__cps = .5;
-        function cursor__buy() {
-          if (game_data.score >= game_data.cursor__cost) {
-            game_data.score = game_data.score - game_data.cursor__cost;
-            game_data.cursor__amount = game_data.cursor__amount + 1;
-            game_data.cursor__cost = Math.round(game_data.cursor__cost * 1.15);
-            
-            recalculate_cps()
-          }
-        }
-
-        // CURSOR MINER //
-        var curminer__cps = 10;
-        function curminer__buy() {
-            if (game_data.score >= game_data.curminer__cost) {
-              game_data.score = game_data.score - game_data.curminer__cost;
-              game_data.curminer__amount = game_data.curminer__amount + 1;
-              game_data.curminer__cost = Math.round(game_data.curminer__cost * 1.15);
-  
-              recalculate_cps()
-            }
-        }
-        
-        // CURSOR GREMLIN //
-        var curgrem__cps = 100;
-        function curgrem__buy() {
-          if (game_data.score >= game_data.curgrem__cost) {
-            game_data.score = game_data.score - game_data.curgrem__cost;
-            game_data.curgrem__amount = game_data.curgrem__amount + 1;
-            game_data.curgrem__cost = Math.round(game_data.curgrem__cost * 1.15);
-
-            recalculate_cps()
-          }
-        }
-
-        // CLICKING //
-        // CLICKING //
-        function addToScore(amount) {
-          game_data.score = game_data.score + (amount * click_power);
-          document.getElementById("score").innerHTML = Math.round(game_data.score);
-        }
-
-        // SET INTERVAL //
-        // SET INTERVAL //
-        setInterval(function() {
-          game_data.score = game_data.score + score_cps;
-
-          document.getElementById("score").innerHTML = Math.round(game_data.score);
-        }, 1000) // 1000 MS = 1 Second
-
-        // SET INTERVAL SAVING GAME //
-        // SET INTERVAL SAVING GAME //
-        setInterval(function() {
-          save_game();
-        }, 30000) // 30000 = 30 Seconds
-
-        // ON THE WINDOW BEING LOADED //
-        // ON THE WINDOW BEING LOADED //
-        window.onload = function() {
-          load_game();
-        }
-
-        // ON A KEY BEING DOWN //
-        // ON A KEY BEING DOWN //
-        // ON A KEY BEING DOWN //
-        document.addEventListener("keydown", function(event) {
-          if (event.ctrlKey && event.which == 83) { // Key = CTRL + S
-            event.preventDefault();
-            save_game();
-          } else if (event.ctrlKey && event.which == 81) { // Key = CTRL + Q
-            event.preventDefault();
-            reset_game_save();
-          }
- 
-        }, false);
-
-        // Recalculates the CPS Value //
-        function recalculate_cps() {
-          // RESET CPS //
-          score_cps = 0;
-
-          // CURSOR //
-          score_cps = score_cps + (game_data.cursor__amount * cursor__cps);
-
-          // CURSOR MINER //
-          score_cps = score_cps + (game_data.curminer__amount * curminer__cps);
-
-          // CURSOR GREMLIN //
-          score_cps = score_cps + (game_data.curgrem__amount * curgrem__cps);
-
-
-          // UPDATING SCREEN //
-          update_screen()
-        }
-
-        // Recalculates Click Power //
-        function recalculate_click_power() {
-          click_power = 1;
-        }
-
-        
-        // UPDATE SCREEN //
-        function update_screen() {
-          document.getElementById("score").innerHTML = Math.round(game_data.score); 
-          document.getElementById("cps").innerHTML = score_cps;
-          
-          // CURSOR REFRESH //
-          document.getElementById("cursorcost").innerHTML = game_data.cursor__cost;
-          document.getElementById("cursors").innerHTML = game_data.cursor__amount;
-
-          // CURSOR MINER REFRESH //
-          document.getElementById("curminercost").innerHTML = game_data.curminer__cost;
-          document.getElementById("curminers").innerHTML = game_data.curminer__amount;
-
-          // CURSOR GREMLIN REFRESH //
-          document.getElementById("curgremcost").innerHTML = game_data.curgrem__cost;
-          document.getElementById("curgrems").innerHTML = game_data.curgrem__amount;
-        }
-
-
-        // SAVE / LOAD SYSTEM //
-        function load_game() {
-          var saved_game = JSON.parse(localStorage.getItem("game_save"))
-          
-          for (const key_index in saved_game) {
-            const key_value = saved_game[key_index];
-            
-            if (!(game_data[key_index] == key_value)) {
-              game_data[key_index] = key_value;
-            }
-
-            console.log(key_index, key_value);
-          }
-
-          recalculate_cps();
-        }
-
-        function save_game() {
-          localStorage.setItem("game_save", JSON.stringify(game_data))
-        }
-
-        function reset_game_save() {
-          if (confirm("Are you really sure you want to reset your game data?")) {
-            var new_game_save = {};
-            localStorage.setItem("game_save", JSON.stringify(new_game_save))
-            location.reload()
-          }
-        }
-      
-    </script>
+    <script src="js/main.js"></script>
   </body>
   
 </HTML>
