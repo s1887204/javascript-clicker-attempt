@@ -29,18 +29,22 @@
 }
 
 .sectionFooter {
+  background-color: #c0ac85;
+  border-radius: 15px;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   margin-top: 15%;
-  padding: 5px;
+  width: 25%;
+  height: 50%;
+  padding: 10px;
 }
 
 /* game stuff */
 
 .scorecontainer {
-  background-color: rgba(110, 95, 51, 0.6);
-  width: 95%;
+  background-color: #8a7c5e;
+  width: 90%;
   padding: 5px;
-  border-radius: 15px;
+  border-radius: 10px;
   font-size: 36px;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   font-weight: bold;
@@ -105,10 +109,26 @@
 #upgradeContainer img {
   height: 64px;
   width: 64px;
+  margin: 7.5px 0px 2.5px 10px;
 }
 
 #upgradeContainer {
+  transition: all .3s ease-in-out;
   background-color: #8f8061;
   border-radius: 15px;
   margin: 10px 0px 20px 0px;
+}
+
+/* achievements stuff (container) */
+#achievementContainer img {
+  height: 32px;
+  width: 32px;
+
+  margin: 10px 0px 5px 20px;
+}
+
+#achievementContainer {
+  background-color: #a59169;
+  border-radius: 15px;
+  margin: 10px 0px 15px 0px;
 }

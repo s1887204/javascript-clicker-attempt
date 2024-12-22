@@ -80,8 +80,8 @@ var game = {
     ],
     image: [
       "bdgs/cursor_icon.png",
-      "no_texture.png",
-      "no_texture.png",
+      "bdgs/cursor_miner_icon.png",
+      "bdgs/cursor_gremlin_icon.png",
     ],
     count: [0, 0, 0],
     incomeidle: [
@@ -132,8 +132,63 @@ var game = {
                 }
             }
         }
-    }
+    },
+
+    updateAchievements: function() {
+        document.getElementById("achievementContainer").innerHTML = ""
+        for (i = 0; i < achievements.name.length; i++) {
+            if (achievements.awarded[i]) {
+                document.getElementById("achievementContainer").innerHTML += '<img src="images/'+achievements.image[i]+'" title="'+achievements.name[i]+' &#10; '+achievements.description[i]+'">';
+            }
+        }
+    },
   };
+
+  var achievements = {
+    name: [
+        "A new budget beginning...",
+        "Lend a hand?",
+
+        "Clicker Thousand-er.",
+    ],
+    description: [
+        "Start your journey by clicking the button once.",
+        "Buy a cursor to help you.",
+
+        "Get 1000 clicks.",
+    ],
+    image: [
+        "no_texture.png",
+        "no_texture.png",
+
+        "no_texture.png",
+    ],
+    type: [
+        "click",
+        "building",
+
+        "score",
+    ],
+    requirement: [
+        1,
+        1,
+
+        1000,
+    ],
+    objectIndex: [
+        -1,
+        0, 
+
+        -1
+    ],
+    awarded: [false, false, false],
+
+    earn: function(index) {
+        console.log("unlocking achievement: " + this.name[index])
+        this.awarded[index] = true;
+        display.updateAchievements();
+    },
+  }
 
   function save_game() {
     var game_save = {
@@ -146,6 +201,7 @@ var game = {
       buildings_income: buildings.incomeidle,
       buildings_cost: buildings.cost,
       upgrades_purchased: upgrades.purchased,
+      achievements_awarded : achievements.awarded,
     }
     localStorage.setItem("gameSave", JSON.stringify(game_save));
   };
@@ -178,6 +234,11 @@ var game = {
           upgrades.purchased[i] = saved_game.upgrades_purchased[i];
         }
       };
+      if (typeof saved_game.achievements_awarded !== "undefined") {
+        for (i = 0; i < saved_game.achievements_awarded.length; i++) {
+          achievements.awarded[i] = saved_game.achievements_awarded[i];
+        }
+      };
     }
   };
   
@@ -190,6 +251,14 @@ var game = {
   };
 
   setInterval(function() {
+    for (i = 0; i < achievements.name.length; i++) {
+        if (!achievements.awarded[i]) {
+            if (achievements.type[i] == "score" && game.totalScore >= achievements.requirement[i]) achievements.earn(i);
+            else if (achievements.type[i] == "click" && game.totalClicks >= achievements.requirement[i]) achievements.earn(i);
+            else if (achievements.type[i] == "building" && buildings.count[achievements.objectIndex[i]] >= achievements.requirement[i]) achievements.earn(i);
+        }
+    };
+
     game.addToScore(game.getScorePerSecond());
   }, 1000); // 1000 MS = 1 Second
 
@@ -212,6 +281,7 @@ var game = {
     display.updateScore();
     display.updateUpgrades();
     display.updateShop();
+    display.updateAchievements();
   };
 
   document.addEventListener("keydown", function(event) {
