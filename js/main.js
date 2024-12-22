@@ -1,6 +1,5 @@
 var game = {
     score: 0,
-    totalScore: 0,
     totalClicks: 0,
     clickValue: 1,
     version: 0.000,
@@ -11,7 +10,7 @@ var game = {
 
     addToScore: function(amount) {
       this.score += amount;
-      this.totalScore += amount;
+      this.totalClicks += amount;
       display.updateScore();
     },
 
@@ -85,14 +84,14 @@ var game = {
     ],
     count: [0, 0, 0],
     incomeidle: [
-      .5,
-      10,
+      1,
+      25,
       100
     ],
     cost: [
-      75,
-      250,
-      1000,
+      50,
+      200,
+      500,
     ],
 
     purchase: function(index) {
@@ -122,7 +121,7 @@ var game = {
     },
 
     updateUpgrades: function() {
-        document.getElementById("upgradeContainer").innerHTML = "";
+        document.getElementById("upgradeContainer").innerHTML = "<div></div>";
         for (i = 0; i < upgrades.name.length; i++) {
             if (!upgrades.purchased[i]) {
                 if (upgrades.type[i] == "building" && buildings.count[upgrades.buildingIndex[i]] >= upgrades.requirement[i]) {
@@ -135,7 +134,7 @@ var game = {
     },
 
     updateAchievements: function() {
-        document.getElementById("achievementContainer").innerHTML = ""
+        document.getElementById("achievementContainer").innerHTML = "<div></div>"
         for (i = 0; i < achievements.name.length; i++) {
             if (achievements.awarded[i]) {
                 document.getElementById("achievementContainer").innerHTML += '<img src="images/'+achievements.image[i]+'" title="'+achievements.name[i]+' &#10; '+achievements.description[i]+'">';
