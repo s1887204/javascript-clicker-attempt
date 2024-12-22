@@ -57,6 +57,8 @@
 .clickercontainer img:hover { transform: scale(1.05); }
 .clickercontainer img:active { transform: scale(0.95); }
 
+/* shop stuff */
+
 .shopButton {
   background-color: #8f8061;
   transition: all .3s ease-in-out;
@@ -97,4 +99,16 @@
   color: #554c39;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   width: 15%;
+}
+
+/* upgrades stuff (container) */
+#upgradeContainer img {
+  height: 64px;
+  width: 64px;
+}
+
+#upgradeContainer {
+  background-color: #8f8061;
+  border-radius: 15px;
+  margin: 10px 0px 20px 0px;
 }
