@@ -11,10 +11,15 @@ This project is open source, meaning anyone could download it, and change it to 
 Check the website link that was listed, or use [this one](https://s1887204.github.io/javascript-clicker-attempt/)
 
 # How was it built???
-This was made with HTML and and a lot of CSS magic. This whole game is currently just ran with one HTML and one CSS.
+This was made with HTML and a bunch of CSS magic. The CSS file literally carries this entire project visually.
+It's currently just one HTML file which is small, a chunky CSS file, and a **BEEFY** JS file which runs all of this magic beautiful-ness
+
+# Controls???
+To save, its CTRL + S, like any clicker game. It should also auto-save every 30 seconds if you want to be patient.
+You can also reset your progress with CTRL + Q in case your game breaks, which if it does, report the issue in the ISSUES tab here and use Inspect Console to see what happened.
 
 # Future???
-Game shall be maintained as long as I feel like it.
+Game will be maintained as long as I have time.
 
 # Current Status???
-### Demo, currently being maintained as of December 20, 2024.
+### Demo, currently being maintained as of December 22, 2024. Check website for recent uploads.
