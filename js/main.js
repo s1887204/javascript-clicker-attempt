@@ -4,10 +4,12 @@ var game = {
     score: 0,
     totalClicks: 0,
     clickValue: 1,
+    retain_how_much_cps_toward_click: 0,
     version: 0.000,
     
     click: function() {
-      this.addToScore(this.clickValue);
+      let cps_to_add = this.getPercentageOfScorePerSecond(this.retain_how_much_cps_toward_click);
+      this.addToScore(this.clickValue + cps_to_add);
     },
 
     addToScore: function(amount) {
@@ -16,10 +18,14 @@ var game = {
       display.updateScore();
     },
 
+    getPercentageOfScorePerSecond: function(percent) {
+      return (this.getScorePerSecond() * percent);
+    },
+
     getScorePerSecond: function() {
       var scorePerSecond = 0;
       for (i = 0; i < buildings.name.length; i++) {
-        scorePerSecond += buildings.base_incomeidle[i] * buildings.count[i];
+        scorePerSecond += buildings.incomeidle[i] * buildings.count[i];
       }
       return scorePerSecond;
     }
@@ -29,30 +35,54 @@ var game = {
   // UPGRADES //
   var upgrades = {
     name: [
-        "Stone Fingers",
+        "Stone Cursors",
+        "Iron Cursors",
+
+        "Click Mutation Serum",
     ],
     description: [
         "Cursors are twice as efficient.",
+        "Cursors are twice as efficient.",
+
+        "Makes your clicks worth 1% of your CPS",
     ],
     image: [
-        "bdgs/cursor_icon.png",
+        "upgds/stone_cursor.png",
+        "upgds/iron_cursor.png",
+
+        "no_texture.png",
     ],
     type: [
         "building",
+        "building",
+
+        "clicktocps",
     ],
     cost: [
         300,
+        900,
+
+        1,
     ],
     buildingIndex: [
         0,
+        0,
+
+        -1,
     ],
     requirement: [
+        1,
+        25,
+
         1,
     ],
     bonus: [
         2,
+        2,
+
+        .01,
     ],
-    purchased: [false],
+    purchased: [false, false, false],
 
     purchase: function(index) {
         if (!this.purchased[index] && game.score >= this.cost[index]) {
@@ -61,18 +91,25 @@ var game = {
                 buildings.incomeidle[this.buildingIndex[index]] *= this.bonus[index];
                 this.purchased[index] = true
 
-                display.updateScore()
+                display.updateScore();
                 display.updateUpgrades();
             } else if (this.type[index] == "click" && game.totalClicks >= this.requirement[index]) {
                 game.score -= this.cost[index];
                 game.clickValue *= this.bonus[index];
                 this.purchased[index] = true
 
-                display.updateScore()
+                display.updateScore();
                 display.updateUpgrades();
+            } else if (this.type[index] == "clicktocps" && game.totalClicks >= this.requirement[index]) {
+              game.score -= this.cost[index];
+              game.retain_how_much_cps_toward_click += this.bonus[index]
+              this.purchased[index] = true
+              
+              display.updateScore();
+              display.updateUpgrades();
             }
         }
-    }
+    },
   };
 
   // BUILDINGS //
@@ -89,11 +126,10 @@ var game = {
       "bdgs/cursor_gremlin_icon.png",
     ],
     count: [0, 0, 0],
-    incomeidle: [],
-    base_incomeidle: [
+    incomeidle: [
       1,
       25,
-      100
+      100,
     ],
     cost: [],
     base_cost: [
@@ -118,7 +154,7 @@ var game = {
   // DISPLAY //
   var display = {
     updateScore: function() {
-      document.getElementById("score").innerHTML = game.score;
+      document.getElementById("score").innerHTML = Math.round(game.score);
       document.getElementById("scorepersecond").innerHTML = game.getScorePerSecond();
       document.title = game.score + " clicks - javascript-clicker-attempt"
     },
@@ -136,8 +172,10 @@ var game = {
             if (!upgrades.purchased[i]) {
                 if (upgrades.type[i] == "building" && buildings.count[upgrades.buildingIndex[i]] >= upgrades.requirement[i]) {
                     document.getElementById("upgradeContainer").innerHTML += '<img src="images/'+upgrades.image[i]+'"title=" '+upgrades.name[i]+' &#10; '+upgrades.description[i]+' &#10; ('+upgrades.cost[i]+' clicks)" onclick="upgrades.purchase('+i+')">'
-                } else if (upgrades.type == "click" && game.totalClicks >= upgrades.requirement[i]) {
+                } else if (upgrades.type[i] == "click" && game.totalClicks >= upgrades.requirement[i]) {
                     document.getElementById("upgradeContainer").innerHTML += '<img src="images/'+upgrades.image[i]+'"title=" '+upgrades.name[i]+' &#10; '+upgrades.description[i]+' &#10; ('+upgrades.cost[i]+' clicks)" onclick="upgrades.purchase('+i+')">'
+                } else if (upgrades.type[i] == "clicktocps" && game.totalClicks >= upgrades.requirement[i]) {
+                   document.getElementById("upgradeContainer").innerHTML += '<img src="images/'+upgrades.image[i]+'"title=" '+upgrades.name[i]+' &#10; '+upgrades.description[i]+' &#10; ('+upgrades.cost[i]+' clicks)" onclick="upgrades.purchase('+i+')">'
                 }
             }
         }
@@ -170,8 +208,8 @@ var game = {
     ],
     image: [
         "achvs/new_beginning.png",
-        "no_texture.png",
-        "no_texture.png",
+        "bdgs/cursor_icon.png",
+        "achvs/100_cursors.png",
         "no_texture.png",
     ],
     type: [
@@ -208,7 +246,6 @@ var game = {
       score: game.score,
       total_score: game.totalScore,
       total_clicks: game.totalClicks,
-      click_value: game.clickValue,
       version: game.version,
       buildings_counts: buildings.count,
       upgrades_purchased: upgrades.purchased,
@@ -227,32 +264,38 @@ var game = {
       if (typeof saved_game.score !== "undefined") game.score = saved_game.score;
       if (typeof saved_game.total_score !== "undefined") game.total_score = saved_game.totalScore;
       if (typeof saved_game.total_clicks !== "undefined") game.total_clicks = saved_game.totalClicks;
-      if (typeof saved_game.click_value !== "undefined") game.click_value = saved_game.clickValue;
       
       if (typeof saved_game.buildings_counts !== "undefined") {
         for (i = 0; i < saved_game.buildings_counts.length; i++) {
           buildings.count[i] = saved_game.buildings_counts[i];
-          console.log(buildings.count[i])
+          console.log(buildings.count[i]);
  
           if (buildings.count[i] >= 1) {
             buildings.cost[i] = Math.ceil((buildings.count[i] * buildings.base_cost[i]) * 1.15); // PURCHASE MULTIPLIER
-            buildings.incomeidle[i] = (buildings.count[i] * buildings.base_incomeidle[i])
           } else {
             buildings.cost[i] = Math.ceil((buildings.base_cost[i])); // PURCHASE MULTIPLIER
-            buildings.incomeidle[i] = (buildings.base_incomeidle[i])
-          }
-        }
+          };
+        };
       } else {
         for (i = 0; i < buildings.name.length; i++) {
           buildings.cost[i] = buildings.base_cost[i];
-          buildings.incomeidle[i] = buildings.base_incomeidle[i];
-        }
+        };
   
-        notify("Welcome to javascript-clicker-attempt!", 6000)
+        notify("Welcome to javascript-clicker-attempt!", 6000);
       }
       if (typeof saved_game.upgrades_purchased !== "undefined") {
         for (i = 0; i < saved_game.upgrades_purchased.length; i++) {
           upgrades.purchased[i] = saved_game.upgrades_purchased[i];
+
+          if (upgrades.purchased[i]) {
+            if (upgrades.type[i] == "building") {
+              buildings.incomeidle[upgrades.buildingIndex[i]] *= upgrades.bonus[i]
+            } else if (upgrades.type[i] == "click") {
+              game.clickValue *= upgrades.bonus[i]
+            } else if (upgrades.type[i] == "clicktocps") {
+              game.retain_how_much_cps_toward_click += upgrades.bonus[i]
+            }
+          }
         }
       };
       if (typeof saved_game.achievements_awarded !== "undefined") {
@@ -337,9 +380,12 @@ var game = {
       y: event.pageY - clickerOffset.top,
     }
 
+    // get the actual click value
+    let cps_thats_added = game.getPercentageOfScorePerSecond(game.retain_how_much_cps_toward_click);
+
     // make click value label
     let element = document.createElement("div");
-    element.textContent = "+ " + game.clickValue;
+    element.textContent = "+ " + (game.clickValue + cps_thats_added);
     element.classList.add("number", "unselectable");
 
     // give click value label the position of the mouse
