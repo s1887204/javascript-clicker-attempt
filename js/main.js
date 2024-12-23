@@ -154,9 +154,9 @@ var game = {
   // DISPLAY //
   var display = {
     updateScore: function() {
-      document.getElementById("score").innerHTML = Math.round(game.score);
-      document.getElementById("scorepersecond").innerHTML = game.getScorePerSecond();
-      document.title = game.score + " clicks - javascript-clicker-attempt"
+      document.getElementById("score").innerHTML = abbreviate_number(game.score);
+      document.getElementById("scorepersecond").innerHTML = abbreviate_number(game.getScorePerSecond());
+      document.title = abbreviate_number(game.score) + " clicks - javascript-clicker-attempt"
     },
 
     updateShop: function() {
@@ -367,6 +367,17 @@ var game = {
     return Math.round(Math.random() * (max - min) + min);
   }
 
+  // ABBREVIATES NUMBERS USING JS BUILT IN FUNCTION //
+  // ABBREVIATES NUMBERS USING JS BUILT IN FUNCTION //
+  function abbreviate_number(number) {
+    const formatted_number = Intl.NumberFormat('en-US', {
+      notation: "compact",
+      maximumFractionDigits: 1,
+    }).format(number)
+
+    return formatted_number
+  }
+
   // CREATE NUMBER ON CLICK //
   // CREATE NUMBER ON CLICK //
   function createNumberOnClicker(event) {
@@ -385,7 +396,7 @@ var game = {
 
     // make click value label
     let element = document.createElement("div");
-    element.textContent = "+ " + (game.clickValue + cps_thats_added);
+    element.textContent = "+ " + abbreviate_number((game.clickValue + cps_thats_added));
     element.classList.add("number", "unselectable");
 
     // give click value label the position of the mouse
