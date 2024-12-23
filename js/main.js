@@ -359,6 +359,7 @@ var game = {
     let opacity = 1;
 
     let elementFadingInterval = window.setInterval(function() {
+      if (typeof element == "undefined" && element == null) clearInterval(movementInterval);
       opacity -= 50 / duration
 
       if (opacity <= final_opacity) {
@@ -448,13 +449,19 @@ var game = {
     element.textContent = msg;
     element.classList.add("unselectable", "notification");
     
-    // append notification label to the container
+    // clean the container if there are 4 children
+    if (container.children.length == 4) {
+      container.children[1].remove()
+    };
+
+    // append the child element to the container to make that list like UI thing.
     container.appendChild(element);
 
     // slowly fade the element
     fade_out(element, duration, 0, function() {
       element.remove()
     })
+    console.log(container.children.length)
   }
 
   document.getElementById("gameclicker").addEventListener("click", function(event) {
