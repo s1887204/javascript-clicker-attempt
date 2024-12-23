@@ -8,7 +8,7 @@ This is a version I can actually maintain while seeking my education, and is eas
 This project is open source, meaning anyone could download it, and change it to their liking, as it is being hosted with Github. 
 
 # How to play on broswer???
-Check the website link that was listed, or use [this one](https://s1887204.github.io/javascript-clicker-attempt/)
+**Check the website link that was listed, or use [this one](https://s1887204.github.io/javascript-clicker-attempt/)**
 
 # How was it built???
 This was made with HTML and a bunch of CSS magic. The CSS file literally carries this entire project visually.

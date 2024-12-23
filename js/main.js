@@ -1,3 +1,12 @@
+/*
+  WELCOME! All of the code written is open source and used a tutorial found on Youtube about "Incremental Clickers".
+  Some of this code I had to find myself, if its bad, I know, this is my first time working with JS, as I've used HTML and stuff but not to this degree.
+  Enjoy reading through my garbage code, and if you want to critique, go ahead.
+
+  THANKS! - gord (s1887204)
+*/
+
+
 // GAME //
 // GAME //
 var game = {
@@ -38,7 +47,7 @@ var game = {
         "Stone Cursors",
         "Iron Cursors",
 
-        "Click Mutation Serum",
+        "Click Mutation Serum - Stage I",
     ],
     description: [
         "Cursors are twice as efficient.",
@@ -50,7 +59,7 @@ var game = {
         "upgds/stone_cursor.png",
         "upgds/iron_cursor.png",
 
-        "no_texture.png",
+        "upgds/clickspersecond_serum_1.png",
     ],
     type: [
         "building",
@@ -62,7 +71,7 @@ var game = {
         300,
         900,
 
-        1,
+        1000,
     ],
     buildingIndex: [
         0,
@@ -71,10 +80,10 @@ var game = {
         -1,
     ],
     requirement: [
-        1,
-        25,
+        5,
+        15,
 
-        1,
+        250,
     ],
     bonus: [
         2,
@@ -133,9 +142,9 @@ var game = {
     ],
     cost: [],
     base_cost: [
-      50,
-      200,
+      25,
       500,
+      1500,
     ],
 
     purchase: function(index) {
@@ -387,16 +396,24 @@ var game = {
     // get position the clicker was clicked in
     let clickerOffset = clicker.getBoundingClientRect()
     let position = {
-      x: event.pageX - clickerOffset.left + give_random_number(-10, 10),
+      x: event.pageX - clickerOffset.left + give_random_number(-15, 20),
       y: event.pageY - clickerOffset.top,
     }
 
     // get the actual click value
     let cps_thats_added = game.getPercentageOfScorePerSecond(game.retain_how_much_cps_toward_click);
 
+    // decide if it should abbreviate
+    let click_display = 0
+    if (game.clickValue >= 1000) {
+      click_display = abbreviate_number((game.clickValue + cps_thats_added));
+    } else {
+      click_display = game.clickValue + cps_thats_added;
+    }
+    
     // make click value label
     let element = document.createElement("div");
-    element.textContent = "+ " + abbreviate_number((game.clickValue + cps_thats_added));
+    element.textContent = "+ " + click_display;
     element.classList.add("number", "unselectable");
 
     // give click value label the position of the mouse
@@ -469,3 +486,5 @@ var game = {
       }
 
   }, false);
+
+  // woag 470+ lines of code
