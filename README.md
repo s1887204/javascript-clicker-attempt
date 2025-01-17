@@ -22,4 +22,4 @@ You can also reset your progress with CTRL + Q in case your game breaks, which i
 Game will be maintained as long as I have time.
 
 # Current Status???
-### Demo, currently being maintained as of December 22, 2024. Check website for recent uploads.
+### Demo, currently being maintained as of January 17, 2025. Check website for recent uploads.
