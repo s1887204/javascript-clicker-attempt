@@ -1,0 +1,58 @@
+{
+  "name": [
+    "Stone Cursors",
+    "Iron Cursors",
+    "Diamond Cursors",
+
+    "Click Mutation Serum - Stage I"
+  ],
+  "description": [
+    "Cursors are twice as efficient.",
+    "Cursors are twice as efficient.",
+    "Cursors are triple as eficient.",
+
+    "Makes your clicks worth 1% of your CPS"
+  ],
+  "image": [
+    "upgds/stone_cursor.png",
+    "upgds/iron_cursor.png",
+    "no_texture.png",
+
+    "upgds/clickspersecond_serum_1.png"
+  ],
+  "type": [
+    "building",
+    "building",
+    "building",
+
+    "clicktocps"
+  ],
+  "cost": [
+    300,
+    900,
+    2500,
+
+    1000
+  ],
+  "buildingIndex": [
+    0,
+    0,
+    0,
+
+    -1
+  ],
+  "requirement": [
+    5,
+    15,
+    25,
+
+    250
+  ],
+  "bonus": [
+    2,
+    2,
+    3,
+    
+    0.01
+  ]
+}

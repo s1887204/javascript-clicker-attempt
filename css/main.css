@@ -1,5 +1,5 @@
-.oldbutton { 
-  background-color: #04AA6D; /* Green */
+/* .oldbutton { 
+  background-color: #04AA6D;
   border: none;
   color: white;
   padding: 15px 32px;
@@ -7,10 +7,24 @@
   text-decoration: none;
   display: inline-block;
   font-size: 18px;
+}  deprecated */ 
+
+/* fonts -- */
+
+/* Franklin Gothic Medium */
+@font-face {
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  src: url("../fonts/OPTIFranklinGothic-Medium.otf");
 }
+/* in case not automatically loaded on person's computer. */
+
+/* fonts */
 
 /* general stuff */
 .sectionright {
+  background-color: #bbab8c;
+  border-radius: 15px;
+  padding-bottom: 10.5%;
   float: right;
   width: 20%;
 }
@@ -67,7 +81,7 @@
 .clickercontainer img:active { transform: scale(0.95); } */
 
 #gameclicker {
-  background-image: url('/images/new_click_button.png');
+  background-image: url('../images/new_click_button.png');
   background-size: contain;
   position: relative;
   transition: all .25s ease-in-out;

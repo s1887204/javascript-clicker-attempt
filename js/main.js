@@ -6,7 +6,6 @@
   THANKS! - gord (s1887204)
 */
 
-
 // GAME //
 // GAME //
 var game = {
@@ -40,58 +39,27 @@ var game = {
     }
   };
 
+  // JSONS //
+  // JSONS //
+  let upgrade_info_json = {};
+  let achievements_info_json = {};
+
+  // EVENT EMITTER //
+  // EVENT EMITTER //
+  const eventEmitter = new EventTarget();
+
   // UPGRADES //
   // UPGRADES //
   var upgrades = {
-    name: [
-        "Stone Cursors",
-        "Iron Cursors",
-
-        "Click Mutation Serum - Stage I",
-    ],
-    description: [
-        "Cursors are twice as efficient.",
-        "Cursors are twice as efficient.",
-
-        "Makes your clicks worth 1% of your CPS",
-    ],
-    image: [
-        "upgds/stone_cursor.png",
-        "upgds/iron_cursor.png",
-
-        "upgds/clickspersecond_serum_1.png",
-    ],
-    type: [
-        "building",
-        "building",
-
-        "clicktocps",
-    ],
-    cost: [
-        300,
-        900,
-
-        1000,
-    ],
-    buildingIndex: [
-        0,
-        0,
-
-        -1,
-    ],
-    requirement: [
-        5,
-        15,
-
-        250,
-    ],
-    bonus: [
-        2,
-        2,
-
-        .01,
-    ],
-    purchased: [false, false, false],
+    name: [],
+    description: [],
+    image: [],
+    type: [],
+    cost: [],
+    buildingIndex: [],
+    requirement: [],
+    bonus: [],
+    purchased: [],
 
     purchase: function(index) {
         if (!this.purchased[index] && game.score >= this.cost[index]) {
@@ -176,9 +144,10 @@ var game = {
     },
 
     updateUpgrades: function() {
-        document.getElementById("upgradeContainer").innerHTML = "<div></div>";
+        document.getElementById("upgradeContainer").innerHTML = "";
         for (i = 0; i < upgrades.name.length; i++) {
             if (!upgrades.purchased[i]) {
+                console.log(upgrades.name[i])
                 if (upgrades.type[i] == "building" && buildings.count[upgrades.buildingIndex[i]] >= upgrades.requirement[i]) {
                     document.getElementById("upgradeContainer").innerHTML += '<img src="images/'+upgrades.image[i]+'"title=" '+upgrades.name[i]+' &#10; '+upgrades.description[i]+' &#10; ('+upgrades.cost[i]+' clicks)" onclick="upgrades.purchase('+i+')">'
                 } else if (upgrades.type[i] == "click" && game.totalClicks >= upgrades.requirement[i]) {
@@ -203,43 +172,13 @@ var game = {
   // ACHIEVEMENTS //
   // ACHIEVEMENTS //
   var achievements = {
-    name: [
-        "A new budget beginning...",
-        "Lend a hand?",
-        "Mutated Hands",
-        "Clicker Thousand-er.",
-    ],
-    description: [
-        "Start your journey by clicking the button once.",
-        "Buy a cursor to help you.",
-        "Buy over 100 cursors",
-        "Get 1000 clicks.",
-    ],
-    image: [
-        "achvs/new_beginning.png",
-        "bdgs/cursor_icon.png",
-        "achvs/100_cursors.png",
-        "no_texture.png",
-    ],
-    type: [
-        "click",
-        "building",
-        "building",
-        "score",
-    ],
-    requirement: [
-        1,
-        1,
-        100,
-        1000,
-    ],
-    objectIndex: [
-        -1,
-        0,
-        0,
-        -1
-    ],
-    awarded: [false, false, false, false],
+    name: [],
+    description: [],
+    image: [],
+    type: [],
+    requirement: [],
+    objectIndex: [],
+    awarded: [],
 
     earn: function(index) {
         console.log("unlocking achievement: " + this.name[index])
@@ -248,6 +187,49 @@ var game = {
     },
   }
   
+  // RELOADS JSONS //
+  // RELOADS JSONS //
+  function reloadJSON(filePath, callback) {
+    fetch(filePath)
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then((data) => {
+            callback(data); // Pass the JSON data to the callback function
+        })
+        .catch((error) => {
+            console.error('Error loading JSON:', error);
+        });
+  }
+
+function reload_jsons(callback) {
+  console.log("Loading JSONS...")
+    setTimeout(() => {
+      // upgrade info json //
+     reloadJSON("../_data/JSON/upgrades_info.json", (jsonData) => {
+      if (jsonData) {
+      //  console.log('Reloaded JSON Data:', jsonData);
+       upgrade_info_json = {};
+       upgrade_info_json = jsonData;
+      //  console.log(upgrade_info_json);
+     };
+    });
+
+    reloadJSON("../_data/JSON/achievements_info.json", (jsonData) => {
+      if (jsonData) {
+       achievements_info_json = {};
+       achievements_info_json = jsonData; 
+      };
+    });
+
+    if (callback) callback();
+
+    }, 250) // 250 MS = 0.25 seconds
+}
+
   // SAVE GAME //
   // SAVE GAME //
   function save_game() {
@@ -268,6 +250,29 @@ var game = {
   // LOAD GAME //
   // LOAD GAME //
   function load_game() {
+    // console.log(upgrade_info_json)
+    
+    for (const category in upgrade_info_json) {
+      for (const upgrade_value in category) {
+        if (typeof (upgrade_info_json[category][upgrade_value]) !== "undefined") {
+          if (upgrades[category][upgrade_value] !== upgrade_info_json[category][upgrade_value]) {
+            upgrades[category][upgrade_value] = upgrade_info_json[category][upgrade_value]
+          }
+          // console.log(category + " // " + upgrade_value + " // " + upgrade_info_json[category][upgrade_value])
+        }
+      }
+    };
+
+    for (const category in achievements_info_json) {
+      for (const achievement_value in category) {
+        if (typeof (achievements_info_json[category][achievement_value]) !== "undefined") {
+          if (achievements[category][achievement_value] !== achievements_info_json[category][achievement_value]) {
+            achievements[category][achievement_value] = achievements_info_json[category][achievement_value];
+          };
+        };
+      };
+    };
+
     var saved_game = JSON.parse(localStorage.getItem("gameSave"))
     if (localStorage.getItem("gameSave") !== null) {
       if (typeof saved_game.score !== "undefined") game.score = saved_game.score;
@@ -437,7 +442,7 @@ var game = {
       element.remove()
     })
   }
-  
+
   // NOTIFICATION SYSTEM //
   // NOTIFICATION SYSTEM //
   function notify(msg, duration) {
@@ -474,11 +479,13 @@ var game = {
   // ON WEBSITE LOADED //
   // ON WEBSITE LOADED //
   window.onload = function() {
-    load_game();
-    display.updateScore();
-    display.updateUpgrades();
-    display.updateShop();
-    display.updateAchievements();
+    reload_jsons(function() {
+      load_game();
+      display.updateScore();
+      display.updateShop();
+      display.updateAchievements();
+      display.updateUpgrades();
+    });
   };
 
   // ON KEY DOWN EVENT //
@@ -494,4 +501,4 @@ var game = {
 
   }, false);
 
-  // woag 470+ lines of code
+  // woag 500+ lines of code
