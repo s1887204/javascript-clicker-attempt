@@ -218,7 +218,7 @@ function reload_jsons(callback) {
      };
     });
 
-    reloadJSON("../_data/JSON/achievements_info.json", (jsonData) => {
+    reloadJSON("/_data/JSON/achievements_info.json", (jsonData) => {
       if (jsonData) {
        achievements_info_json = {};
        achievements_info_json = jsonData; 

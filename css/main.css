@@ -82,7 +82,6 @@
 
 #gameclicker {
   background-image: url('../images/button_texture_idle.png');
-  background-image: url('../images/new_click_button.png');
   background-size: contain;
   position: relative;
   transition: all .25s ease-in-out;
