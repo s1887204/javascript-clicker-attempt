@@ -13,7 +13,7 @@ var game = {
     totalClicks: 0,
     clickValue: 1,
     retain_how_much_cps_toward_click: 0,
-    version: 0.000,
+    version: "0.0.0",
     
     click: function() {
       let cps_to_add = this.getPercentageOfScorePerSecond(this.retain_how_much_cps_toward_click);
@@ -52,6 +52,7 @@ var game = {
 
   // JSONS //
   // JSONS //
+  
   let upgrade_info_json = {};
   let achievements_info_json = {};
 
@@ -230,7 +231,8 @@ var game = {
   function reload_jsons(callback) {
     console.log("Loading JSONS...")
       setTimeout(() => {
-        // upgrade info json //
+
+      // upgrade info json //
       reloadJSON(`${BASEURL}data/JSON/upgrades_info.json`, (jsonData) => {
         if (jsonData) {
         //  console.log('Reloaded JSON Data:', jsonData);
@@ -240,6 +242,7 @@ var game = {
       };
       });
 
+      // achivements info json //
       reloadJSON(`${BASEURL}data/JSON/achievements_info.json`, (jsonData) => {
         if (jsonData) {
         achievements_info_json = {};
@@ -509,6 +512,33 @@ var game = {
   }, false);
   // WHEN BUTTON IS CLICKED //
   // WHEN BUTTON IS CLICKED //
+
+  function compare_versions() {
+    let current_version = "0.0.0";
+    let github_version = "0.0.0";
+
+    // gets current version //
+    reloadJSON(`${BASEURL}data/JSON/version.json`, (jsonData) => {
+      if (jsonData) {
+        current_version = jsonData.version;
+    };});
+
+    // gets github version //
+    reloadJSON(`s1887204.github.io/javascript-clicker-attempt/data/JSON/version.json`, (jsonData) => {
+      if (jsonData) {
+        github_version = jsonData.version;
+    };});
+
+    game.version = current_version;
+    if (current_version && github_version) {
+      if (current_version !== github_version) { // assuming that our current game is out of date.
+        notify("You are currently running an outdated version! Latest: " + github_version + " || Current: " + current_version, 5000);
+      }
+
+      document.getElementById("versionDisplay").textContent = "javascript-clicker-attempt // Version " + current_version + " (Latest " + github_version + ")";
+    }
+    
+  }
 
   // DETECT IF BEING RAN LOCALLY OR ON WEB (SETS UP BASEURL DONT REMOVE) //
   // DETECT IF BEING RAN LOCALLY OR ON WEB (SETS UP BASEURL DONT REMOVE) //
