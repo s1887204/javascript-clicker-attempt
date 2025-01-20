@@ -48,6 +48,10 @@ var game = {
   // EVENT EMITTER //
   const eventEmitter = new EventTarget();
 
+  // BASEURL FOR DATA LOADING //
+  // BASEURL FOR DATA LOADING //
+  let BASEURL = "";
+
   // UPGRADES //
   // UPGRADES //
   var upgrades = {
@@ -209,7 +213,7 @@ function reload_jsons(callback) {
   console.log("Loading JSONS...")
     setTimeout(() => {
       // upgrade info json //
-     reloadJSON("../data/JSON/upgrades_info.json", (jsonData) => {
+     reloadJSON(`${BASEURL}data/JSON/upgrades_info.json`, (jsonData) => {
       if (jsonData) {
       //  console.log('Reloaded JSON Data:', jsonData);
        upgrade_info_json = {};
@@ -218,7 +222,7 @@ function reload_jsons(callback) {
      };
     });
 
-    reloadJSON("../data/JSON/achievements_info.json", (jsonData) => {
+    reloadJSON(`${BASEURL}data/JSON/achievements_info.json`, (jsonData) => {
       if (jsonData) {
        achievements_info_json = {};
        achievements_info_json = jsonData; 
@@ -470,6 +474,8 @@ function reload_jsons(callback) {
     // console.log(container.children.length)
   }
 
+  // WHEN BUTTON IS CLICKED //
+  // WHEN BUTTON IS CLICKED //
   document.getElementById("gameclicker").addEventListener("click", function(event) {
     game.totalClicks++;
     game.click()
@@ -477,9 +483,35 @@ function reload_jsons(callback) {
     createNumberOnClicker(event)
   }, false);
 
+  // DETECT IF BEING RAN LOCALLY OR ON WEB (SETS UP BASEURL DONT REMOVE) //
+  // DETECT IF BEING RAN LOCALLY OR ON WEB (SETS UP BASEURL DONT REMOVE) //
+  function detect_running_location() {
+    if (window.location.protocal == "file:") { // game is being ran from a file
+      BASEURL = "./";
+      notify("Thanks for downloading! Keep up to date by checking the repository from time to time!", 7000);
+
+    } else if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") { // game is likely being hosted on local computer
+      BASEURL = "./";
+      notify("Thanks for downloading and hosting! Keep up to date by checking the repository from time to time!", 7000);
+
+    } else if (/^\d{1,3}(\.\d{1,3}){3}$/.test(window.location.hostname)) { // game is being ran from an IP (ran from a place without a web link, weird)
+      BASEURL = "http://${window.location.hostname}/";
+      notify("This game is being ran from a random IP, be careful on what you do!", 9000);
+
+    } else if (window.location.hostname === "s1887204.github.io") { // game is being ran from the website.
+      BASEURL = "https://s1887204.github.io/javascript-clicker-attempt/";
+      
+    } else { // game is likely running from another website.
+      BASEURL = "https://s1887204.github.io/javascript-clicker-attempt/";
+      console.warn("Game was created by @s1887204. Link: https://github.com/s1887204/javascript-clicker-attempt");
+    }
+  };
+
   // ON WEBSITE LOADED //
   // ON WEBSITE LOADED //
   window.onload = function() {
+    detect_running_location();
+
     reload_jsons(function() {
       load_game();
       display.updateScore();
