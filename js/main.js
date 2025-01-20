@@ -3,6 +3,9 @@
   Some of this code I had to find myself, if its bad, I know, this is my first time working with JS, as I've used HTML and stuff but not to this degree.
   Enjoy reading through my garbage code, and if you want to critique, go ahead.
 
+
+  Warning: Project has used AI technology, like ChatGPT to help remidate any issues that the game has had.
+
   THANKS! - gord (s1887204)
 */
 
@@ -580,11 +583,11 @@ var game = {
   function detect_running_location() {
     if (window.location.protocal == "file:") { // game is being ran from a file
       BASEURL = "./";
-      notify("Thanks for downloading! Keep up to date by checking the repository from time to time!", 7000);
+      notify("Thanks for downloading!", 2000);
 
     } else if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") { // game is likely being hosted on local computer
       BASEURL = "./";
-      notify("Thanks for downloading and hosting! Keep up to date by checking the repository from time to time!", 7000);
+      notify("Thanks for downloading and hosting!", 2000);
 
     } else if (/^\d{1,3}(\.\d{1,3}){3}$/.test(window.location.hostname)) { // game is being ran from an IP (ran from a place without a web link, weird)
       BASEURL = "http://${window.location.hostname}/";
