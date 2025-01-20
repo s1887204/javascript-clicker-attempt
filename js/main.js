@@ -147,7 +147,7 @@ var game = {
         document.getElementById("upgradeContainer").innerHTML = "";
         for (i = 0; i < upgrades.name.length; i++) {
             if (!upgrades.purchased[i]) {
-                console.log(upgrades.name[i])
+                // console.log(upgrades.name[i])
                 if (upgrades.type[i] == "building" && buildings.count[upgrades.buildingIndex[i]] >= upgrades.requirement[i]) {
                     document.getElementById("upgradeContainer").innerHTML += '<img src="images/'+upgrades.image[i]+'"title=" '+upgrades.name[i]+' &#10; '+upgrades.description[i]+' &#10; ('+upgrades.cost[i]+' clicks)" onclick="upgrades.purchase('+i+')">'
                 } else if (upgrades.type[i] == "click" && game.totalClicks >= upgrades.requirement[i]) {
@@ -209,7 +209,7 @@ function reload_jsons(callback) {
   console.log("Loading JSONS...")
     setTimeout(() => {
       // upgrade info json //
-     reloadJSON("../_data/JSON/upgrades_info.json", (jsonData) => {
+     reloadJSON("/_data/JSON/upgrades_info.json", (jsonData) => {
       if (jsonData) {
       //  console.log('Reloaded JSON Data:', jsonData);
        upgrade_info_json = {};
@@ -218,7 +218,7 @@ function reload_jsons(callback) {
      };
     });
 
-    reloadJSON("../_data/JSON/achievements_info.json", (jsonData) => {
+    reloadJSON("/_data/JSON/achievements_info.json", (jsonData) => {
       if (jsonData) {
        achievements_info_json = {};
        achievements_info_json = jsonData; 
@@ -283,7 +283,7 @@ function reload_jsons(callback) {
       if (typeof saved_game.buildings_counts !== "undefined") {
         for (i = 0; i < saved_game.buildings_counts.length; i++) {
           buildings.count[i] = saved_game.buildings_counts[i];
-          console.log(buildings.count[i]);
+          // console.log(buildings.count[i]);
  
           if (buildings.count[i] >= 1) {
             buildings.cost[i] = Math.ceil((buildings.count[i] * buildings.base_cost[i]) * 1.15); // PURCHASE MULTIPLIER
@@ -467,7 +467,7 @@ function reload_jsons(callback) {
     fade_out(element, duration, 0, function() {
       element.remove()
     })
-    console.log(container.children.length)
+    // console.log(container.children.length)
   }
 
   document.getElementById("gameclicker").addEventListener("click", function(event) {
@@ -487,6 +487,8 @@ function reload_jsons(callback) {
       display.updateAchievements();
       display.updateUpgrades();
     });
+
+    console.warn("Hey! Welcome to the console log! Report any errors you may see here! - Gord")
   };
 
   // ON KEY DOWN EVENT //
