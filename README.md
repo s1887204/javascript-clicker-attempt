@@ -16,10 +16,10 @@ It's currently just one HTML file which is small, a chunky CSS file, and a **BEE
 
 # Controls???
 To save, its CTRL + S, like any clicker game. It should also auto-save every 30 seconds if you want to be patient.
-You can also reset your progress with CTRL + Q in case your game breaks, which if it does, report the issue in the ISSUES tab here and use Inspect Console to see what happened.
-
-# Future???
-Game will be maintained as long as I have time.
+You can also reset your progress with CTRL + Q in case your game breaks, which if it does, report the issue in the ISSUES tab here and use Inspect Console to see what happened
 
 # Current Status???
-### Demo, currently being maintained as of January 17, 2025. Check website for recent uploads.
+### Demo, currently being maintained as of January 19, 2025. Check website for recent uploads.
+
+# Hosting??
+You are welcome to host the game on your own websites and such, just give credit, thanks.
