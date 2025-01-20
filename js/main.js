@@ -513,31 +513,46 @@ var game = {
   // WHEN BUTTON IS CLICKED //
   // WHEN BUTTON IS CLICKED //
 
-  function compare_versions() {
-    let current_version = "0.0.0";
-    let github_version = "0.0.0";
+  // MAKE SURE CURRENT GAME VERSION IS UP TO DATE IF DOWNLOADED //
+  // MAKE SURE CURRENT GAME VERSION IS UP TO DATE IF DOWNLOADED //
+  async function version_control() {
+    // github version //
+    let github_version;
+    let current_version;
 
-    // gets current version //
-    reloadJSON(`${BASEURL}data/JSON/version.json`, (jsonData) => {
-      if (jsonData) {
-        current_version = jsonData.version;
-    };});
+    try {
+      // Fetch the version JSON from github
+      const response = await fetch("https://s1887204.github.io/javascript-clicker-attempt/data/JSON/version.json");
+      if (!response.ok) {
+        throw new Error(`HTTP Error when trying to get version! ${Response.status}`)
+      }
+      // parse to json
+      github_version = await response.json();
 
-    // gets github version //
-    reloadJSON(`s1887204.github.io/javascript-clicker-attempt/data/JSON/version.json`, (jsonData) => {
-      if (jsonData) {
-        github_version = jsonData.version;
-    };});
+      // fetch the version JSON from the game
+      const response_2 = await fetch(`${BASEURL}data/JSON/version.json`);
+      if (!response_2.ok) {
+        throw new Error(`HTTP Error when trying to get version! ${Response.status}`)
+      };
 
-    game.version = current_version;
-    if (current_version && github_version) {
-      if (current_version !== github_version) { // assuming that our current game is out of date.
-        notify("You are currently running an outdated version! Latest: " + github_version + " || Current: " + current_version, 5000);
+      // parse to json twice
+      current_version = await response_2.json();
+
+      if (github_version.version !== current_version.version) {
+        notify("You are currently running an outdated version! Latest: " + github_version.version + " || Current: " + current_version.version, 5000);
       }
 
-      document.getElementById("versionDisplay").textContent = "javascript-clicker-attempt // Version " + current_version + " (Latest " + github_version + ")";
+      game.version = current_version.version;
+    } catch(error) {
+      console.error("Failed to check for updates, Cause:" + error);
+      alert("Could not check for updates! Please make sure you are on the internet!")
     }
-    
+
+    if (current_version.version && github_version.version) {
+      document.getElementById("versionDisplay").textContent = "javascript-clicker-attempt // Version " + current_version.version + " (Latest " + github_version.version + ")";
+    } else if (current_version) {
+      document.getElementById("versionDisplay").textContent = "javascript-clicker-attempt // Version " + current_version.version + " (Latest ?.?.?)";
+    }
   }
 
   // DETECT IF BEING RAN LOCALLY OR ON WEB (SETS UP BASEURL DONT REMOVE) //
@@ -619,6 +634,9 @@ var game = {
   window.onload = function() {
     // detects the location it is running from
     detect_running_location();
+
+    // checks up on the current version of the game //
+    version_control();
 
     // loads audio
     audio_setup();
