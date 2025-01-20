@@ -666,7 +666,7 @@ var game = {
   }, false);
 
   // WHEN WINDOW IS CLICKED -- GIVES INPUT SO IT CAN PLAY SOUND //
-  // WHEN WINDOW IS CLICKEd -- GIVES INPUT SO IT CAN PLAY SOUND //
+  // WHEN WINDOW IS CLICKED -- GIVES INPUT SO IT CAN PLAY SOUND //
   window.addEventListener("click", function () {
     if (!audio.input_received) 
       { 
@@ -675,4 +675,4 @@ var game = {
       }
   })
 
-  // woag 540+ lines of code
+  // woag 670+ lines of code
