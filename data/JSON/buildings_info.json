@@ -2,24 +2,28 @@
     "name": [
         "Cursor",
         "Cursor Miners",
-        "Cursor Gremlins"
+        "Cursor Gremlins",
+        "Cursor Army"
     ],
     
       "image": [
         "bdgs/cursor_icon.png",
         "bdgs/cursor_miner_icon.png",
-        "bdgs/cursor_gremlin_icon.png"
+        "bdgs/cursor_gremlin_icon.png",
+        "no_texture.png"
     ],
 
       "incomeidle": [
         1,
         25,
-        100
+        100,
+        300
     ],
 
       "base_cost": [
         25,
         500,
-        1500
+        1500,
+        6000
     ]
 }

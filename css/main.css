@@ -104,6 +104,18 @@
 
 /* shop stuff */
 
+#shopContainer {
+  width: 350px; /* Adjust width as needed */
+  height: 425px; /* Adjust height as needed */
+  overflow-y: auto; /* Enables vertical scrolling */
+  overflow-x: hidden; /* Prevents horizontal scrolling */
+  background-color: #a89a81; /* Optional background */
+  border: 2px solid #ccc; /* Optional border */
+  border-radius: 8px; /* Optional rounded corners */
+  padding: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Optional shadow */
+}
+
 .shopButton {
   background-color: #8f8061;
   transition: all .3s ease-in-out;

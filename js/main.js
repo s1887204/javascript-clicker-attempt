@@ -463,7 +463,7 @@ var game = {
     if (game.clickValue >= 1000) {
       click_display = abbreviate_number((game.clickValue + cps_thats_added));
     } else {
-      click_display = game.clickValue + cps_thats_added;
+      click_display = (game.clickValue + cps_thats_added).toFixed(3); // stops the display from being over 2 decimals
     }
     
     // make click value label
