@@ -218,14 +218,14 @@ function reload_jsons(callback) {
      };
     });
 
-    reloadJSON("/_data/JSON/achievements_info.json", (jsonData) => {
+    reloadJSON("../_data/JSON/achievements_info.json", (jsonData) => {
       if (jsonData) {
        achievements_info_json = {};
        achievements_info_json = jsonData; 
       };
-    });
 
-    if (callback) callback();
+      if (callback) callback();
+    });
 
     }, 250) // 250 MS = 0.25 seconds
 }
@@ -269,6 +269,7 @@ function reload_jsons(callback) {
           if (achievements[category][achievement_value] !== achievements_info_json[category][achievement_value]) {
             achievements[category][achievement_value] = achievements_info_json[category][achievement_value];
           };
+          // console.log(category + " // " + achievement_value + " // " + achievements_info_json[category][achievement_value]);
         };
       };
     };
