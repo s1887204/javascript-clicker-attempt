@@ -450,28 +450,33 @@ function reload_jsons(callback) {
 
   // NOTIFICATION SYSTEM //
   // NOTIFICATION SYSTEM //
-  function notify(msg, duration) {
-    // gets notification container;
-    let container = document.getElementById("notificationContainer");
+  function notify(msg, duration = 5000, fade_duration = 1000) {
+    const notificationCenter = document.getElementById("notificationContainer");
 
-    // make new notification label
-    let element = document.createElement("div");
-    element.textContent = msg;
-    element.classList.add("unselectable", "notification");
-    
-    // clean the container if there are 4 children
-    if (container.children.length == 4) {
-      container.children[1].remove()
-    };
-
-    // append the child element to the container to make that list like UI thing.
-    container.appendChild(element);
-
-    // slowly fade the element
-    fade_out(element, duration, 0, function() {
-      element.remove()
-    })
-    // console.log(container.children.length)
+    // Create a notification element
+    const notification = document.createElement("div");
+    notification.className = "notification";
+    notification.textContent = msg;
+  
+    // Add notification to the center and trigger fade-in
+    notificationCenter.appendChild(notification);
+  
+    // Trigger fade-in by adding a 'show' class
+    setTimeout(() => {
+      notification.classList.add("show");
+    }, 10); // Wait a bit for the DOM to update before starting animation
+  
+    // Auto-remove after the specified duration (fade out)
+    setTimeout(() => {
+      notification.style.opacity = 0; // Manually trigger fade-out
+      setTimeout(() => notification.remove(), 500); // Remove after fade-out is complete
+    }, duration);
+  
+    // Allow manual dismissal
+    notification.addEventListener("click", () => {
+      notification.style.opacity = 0; // Trigger fade-out immediately on click
+      setTimeout(() => notification.remove(), 500); // Remove after fade-out
+    });
   }
 
   // WHEN BUTTON IS CLICKED //

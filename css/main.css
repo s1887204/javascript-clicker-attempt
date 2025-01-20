@@ -174,12 +174,48 @@
   margin: 10px 0px 15px 0px;
 }
 
-#notificationContainer > .notification {
-  background-color: #a59169;
-  border-radius: 15px;
-  width: 55%;
-  padding: 5px;
-  font-size: 20px;
-  color: #554c39;
+/* Notification Center */
+#notificationContainer {
+  position: fixed;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Adjust for exact centering */
+  width: 400px; /* Set a reasonable width */
+  z-index: 1000; /* Ensure visibility over other elements */
+  text-align: center;
+  pointer-events: none; /* Allow interaction with underlying elements */
+  display: flex;
+  flex-direction: column; /* Stack notifications vertically */
+  align-items: center; /* Center notifications horizontally */
+  gap: 10px; /* Space between notifications */
 }
+
+/* Individual Notification */
+.notification {
+  background-color: #a59169b5; /* Dark background */
+  color: white; /* White text */
+  padding: 15px 20px;
+  border-radius: 10px;
+  font-size: 16px;
+  box-shadow: 0 4px 15px rgba(87, 87, 87, 0.5);
+  display: inline-block;
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
+  pointer-events: auto; /* Allow interaction with the notification itself */
+  max-width: 100%; /* Ensure the notification doesn't overflow */
+  width: 100%; /* Take up full width inside the container */
+}
+
+/* Fade-In when the notification is added */
+.notification.show {
+  opacity: 1;
+}
+
+/* When hovering, the notification stays fully visible and doesn't interfere with animation */
+.notification:hover {
+  opacity: 1 !important; /* Ensure it stays visible */
+}
+
+
+
