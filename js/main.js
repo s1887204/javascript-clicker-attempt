@@ -52,9 +52,11 @@ var game = {
 
   // JSONS //
   // JSONS //
-  
-  let upgrade_info_json = {};
-  let achievements_info_json = {};
+  let jsons = {
+    upgrades: {},
+    achievements: {},
+    buildings: {}
+  }
 
   // EVENT EMITTER //
   // EVENT EMITTER //
@@ -108,39 +110,26 @@ var game = {
   // BUILDINGS //
   // BUILDINGS //
   var buildings = {
-    name: [
-      "Cursor",
-      "Cursor Miners",
-      "Cursor Gremlins",
-    ],
-    image: [
-      "bdgs/cursor_icon.png",
-      "bdgs/cursor_miner_icon.png",
-      "bdgs/cursor_gremlin_icon.png",
-    ],
-    count: [0, 0, 0],
-    incomeidle: [
-      1,
-      25,
-      100,
-    ],
+    name: [],
+    image: [],
+    count: [],
+    incomeidle: [],
     cost: [],
-    base_cost: [
-      25,
-      500,
-      1500,
-    ],
+    base_cost: [],
 
     purchase: function(index, clicked) {
       if (game.score >= this.cost[index]) {
         game.score -= this.cost[index];
         this.count[index]++;
+        // plays sound //
         if(clicked) { play_sfx_sound(`${BASEURL}audio/sfx/building-click-purchase.mp3`) }
+
         this.cost[index] = Math.ceil((this.base_cost[index] * this.count[index]) * 1.15); // PURCHASE MULTIPLIER
         display.updateScore();
         display.updateShop();
         display.updateUpgrades();
       } else {
+        // plays sound //
         if (clicked) {
           play_sfx_sound(`${BASEURL}audio/sfx/misc-denied.mp3`)
         }
@@ -231,22 +220,30 @@ var game = {
   function reload_jsons(callback) {
     console.log("Loading JSONS...")
       setTimeout(() => {
+      
+      // building info json //
+      reloadJSON(`${BASEURL}data/JSON/buildings_info.json`, (jsonData) => {
+        if (jsonData) {
+        jsons.buildings = {};
+        jsons.buildings = jsonData;
+        };
+      });
 
       // upgrade info json //
       reloadJSON(`${BASEURL}data/JSON/upgrades_info.json`, (jsonData) => {
         if (jsonData) {
         //  console.log('Reloaded JSON Data:', jsonData);
-        upgrade_info_json = {};
-        upgrade_info_json = jsonData;
-        //  console.log(upgrade_info_json);
-      };
+        jsons.upgrades = {};
+        jsons.upgrades = jsonData;
+        //  console.log(jsons.upgrades);
+        };
       });
 
       // achivements info json //
       reloadJSON(`${BASEURL}data/JSON/achievements_info.json`, (jsonData) => {
         if (jsonData) {
-        achievements_info_json = {};
-        achievements_info_json = jsonData; 
+        jsons.achievements = {};
+        jsons.achievements = jsonData; 
         };
 
         if (callback) callback();
@@ -275,32 +272,53 @@ var game = {
   // LOAD GAME //
   // LOAD GAME //
   function load_game() {
-    // console.log(upgrade_info_json)
+    // console.log(jsons.upgrades)
     
-    for (const category in upgrade_info_json) {
+    // load upgrades json //
+    for (const category in jsons.upgrades) {
       for (const upgrade_value in category) {
-        if (typeof (upgrade_info_json[category][upgrade_value]) !== "undefined") {
-          if (upgrades[category][upgrade_value] !== upgrade_info_json[category][upgrade_value]) {
-            upgrades[category][upgrade_value] = upgrade_info_json[category][upgrade_value]
+        if (typeof (jsons.upgrades[category][upgrade_value]) !== "undefined") {
+          if (upgrades[category][upgrade_value] !== jsons.upgrades[category][upgrade_value]) {
+            upgrades[category][upgrade_value] = jsons.upgrades[category][upgrade_value]
           }
-          // console.log(category + " // " + upgrade_value + " // " + upgrade_info_json[category][upgrade_value])
+          // console.log(category + " // " + upgrade_value + " // " + jsons.upgrades[category][upgrade_value])
         }
       }
     };
-
-    for (const category in achievements_info_json) {
-      for (const achievement_value in category) {
-        if (typeof (achievements_info_json[category][achievement_value]) !== "undefined") {
-          if (achievements[category][achievement_value] !== achievements_info_json[category][achievement_value]) {
-            achievements[category][achievement_value] = achievements_info_json[category][achievement_value];
+    
+    // load buildings json //
+    for (const category in jsons.buildings) {
+      for (const building_value in category) {
+        if (typeof (jsons.buildings[category][building_value]) !== "undefined") {
+          if (buildings[category][building_value] !== jsons.buildings[category][building_value]) {
+            buildings[category][building_value] = jsons.buildings[category][building_value];
           };
-          // console.log(category + " // " + achievement_value + " // " + achievements_info_json[category][achievement_value]);
+          // console.log(category + " // " + achievement_value + " // " + jsons.buildings[category][achievement_value]);
+        };
+      };
+    };
+
+    // fixes bug from loading buildings //
+    for (let i = 0; i < buildings.name.length; i++) {
+      buildings.count[i] = 0;
+    }
+
+    console.log(buildings)
+
+    // load achievement json //
+    for (const category in jsons.achievements) {
+      for (const achievement_value in category) {
+        if (typeof (jsons.achievements[category][achievement_value]) !== "undefined") {
+          if (achievements[category][achievement_value] !== jsons.achievements[category][achievement_value]) {
+            achievements[category][achievement_value] = jsons.achievements[category][achievement_value];
+          };
+          // console.log(category + " // " + achievement_value + " // " + jsons.buildings[category][achievement_value]);
         };
       };
     };
 
     var saved_game = JSON.parse(localStorage.getItem("gameSave"))
-    if (localStorage.getItem("gameSave") !== null) {
+    if (localStorage.getItem("gameSave") !== null && localStorage.getItem("gameSave") !== "undefined") {
       if (typeof saved_game.score !== "undefined") game.score = saved_game.score;
       if (typeof saved_game.total_score !== "undefined") game.total_score = saved_game.totalScore;
       if (typeof saved_game.total_clicks !== "undefined") game.total_clicks = saved_game.totalClicks;
@@ -345,6 +363,8 @@ var game = {
       };
       notify("Successfully loaded game...", 4500)
     };
+
+    console.log("New building: ", buildings)
   };
   
   // RESET GAME //
@@ -616,7 +636,7 @@ var game = {
       });
 
       sfx_audio.addEventListener("ended", function() {
-        audio.remove();
+        sfx_audio.remove();
       });
 
     }

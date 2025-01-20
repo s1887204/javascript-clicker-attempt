@@ -1,0 +1,25 @@
+{
+    "name": [
+        "Cursor",
+        "Cursor Miners",
+        "Cursor Gremlins"
+    ],
+    
+      "image": [
+        "bdgs/cursor_icon.png",
+        "bdgs/cursor_miner_icon.png",
+        "bdgs/cursor_gremlin_icon.png"
+    ],
+
+      "incomeidle": [
+        1,
+        25,
+        100
+    ],
+
+      "base_cost": [
+        25,
+        500,
+        1500
+    ]
+}
