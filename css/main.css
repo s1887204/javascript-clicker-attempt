@@ -22,8 +22,8 @@
 
 /* general stuff */
 .sectionright {
-  background-color: #bbab8c;
-  border-radius: 15px;
+  /* background-color: #bbab8c;
+  border-radius: 15px; */
   padding-bottom: 10.5%;
   float: right;
   width: 20%;
@@ -42,8 +42,8 @@
 }
 
 .sectionFooter {
-  background-color: #bba986;
-  border-radius: 15px;
+  /* background-color: #bba986;
+  border-radius: 15px; */
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   margin-top: 15%;
   width: 22%;

@@ -39,6 +39,17 @@ var game = {
     }
   };
 
+  // AUDIO //
+  // AUDIO //
+  var audio = {
+    backgroundMusic: null,
+
+    sfx: {},
+    sfx_Volume: 1,
+
+    input_received: false,
+  }
+
   // JSONS //
   // JSONS //
   let upgrade_info_json = {};
@@ -119,14 +130,19 @@ var game = {
       1500,
     ],
 
-    purchase: function(index) {
+    purchase: function(index, clicked) {
       if (game.score >= this.cost[index]) {
         game.score -= this.cost[index];
         this.count[index]++;
+        if(clicked) { play_sfx_sound(`${BASEURL}audio/sfx/building-click-purchase.mp3`) }
         this.cost[index] = Math.ceil((this.base_cost[index] * this.count[index]) * 1.15); // PURCHASE MULTIPLIER
         display.updateScore();
         display.updateShop();
         display.updateUpgrades();
+      } else {
+        if (clicked) {
+          play_sfx_sound(`${BASEURL}audio/sfx/misc-denied.mp3`)
+        }
       }
     }
   };
@@ -143,7 +159,7 @@ var game = {
     updateShop: function() {
       document.getElementById("shopContainer").innerHTML = "";
       for (i = 0; i < buildings.name.length; i++) {
-        document.getElementById("shopContainer").innerHTML += '<table class="shopButton" onclick="buildings.purchase('+i+')"><tr><td id="image"><img src="images/'+buildings.image[i]+'"></td><td id="nameAndCost"><p>'+buildings.name[i]+'</p><p><span>'+buildings.cost[i]+'</span> Clicks</p></td><td id="amount"><span>'+buildings.count[i]+'</span></td></tr></table>'
+        document.getElementById("shopContainer").innerHTML += '<table class="shopButton" onclick="buildings.purchase('+i+', true)"><tr><td id="image"><img src="images/'+buildings.image[i]+'"></td><td id="nameAndCost"><p>'+buildings.name[i]+'</p><p><span>'+buildings.cost[i]+'</span> Clicks</p></td><td id="amount"><span>'+buildings.count[i]+'</span></td></tr></table>'
       }
     },
 
@@ -209,30 +225,32 @@ var game = {
         });
   }
 
-function reload_jsons(callback) {
-  console.log("Loading JSONS...")
-    setTimeout(() => {
-      // upgrade info json //
-     reloadJSON(`${BASEURL}data/JSON/upgrades_info.json`, (jsonData) => {
-      if (jsonData) {
-      //  console.log('Reloaded JSON Data:', jsonData);
-       upgrade_info_json = {};
-       upgrade_info_json = jsonData;
-      //  console.log(upgrade_info_json);
-     };
-    });
-
-    reloadJSON(`${BASEURL}data/JSON/achievements_info.json`, (jsonData) => {
-      if (jsonData) {
-       achievements_info_json = {};
-       achievements_info_json = jsonData; 
+  // RELOADS JSONS //
+  // RELOADS JSONS //
+  function reload_jsons(callback) {
+    console.log("Loading JSONS...")
+      setTimeout(() => {
+        // upgrade info json //
+      reloadJSON(`${BASEURL}data/JSON/upgrades_info.json`, (jsonData) => {
+        if (jsonData) {
+        //  console.log('Reloaded JSON Data:', jsonData);
+        upgrade_info_json = {};
+        upgrade_info_json = jsonData;
+        //  console.log(upgrade_info_json);
       };
+      });
 
-      if (callback) callback();
-    });
+      reloadJSON(`${BASEURL}data/JSON/achievements_info.json`, (jsonData) => {
+        if (jsonData) {
+        achievements_info_json = {};
+        achievements_info_json = jsonData; 
+        };
 
-    }, 250) // 250 MS = 0.25 seconds
-}
+        if (callback) callback();
+      });
+
+      }, 250) // 250 MS = 0.25 seconds
+  }
 
   // SAVE GAME //
   // SAVE GAME //
@@ -482,15 +500,19 @@ function reload_jsons(callback) {
   // WHEN BUTTON IS CLICKED //
   // WHEN BUTTON IS CLICKED //
   document.getElementById("gameclicker").addEventListener("click", function(event) {
+    play_sfx_sound(`${BASEURL}audio/sfx/button-click.mp3`)
+
     game.totalClicks++;
     game.click()
 
     createNumberOnClicker(event)
   }, false);
+  // WHEN BUTTON IS CLICKED //
+  // WHEN BUTTON IS CLICKED //
 
   // DETECT IF BEING RAN LOCALLY OR ON WEB (SETS UP BASEURL DONT REMOVE) //
   // DETECT IF BEING RAN LOCALLY OR ON WEB (SETS UP BASEURL DONT REMOVE) //
-  function detect_running_location(callback) {
+  function detect_running_location() {
     if (window.location.protocal == "file:") { // game is being ran from a file
       BASEURL = "./";
       notify("Thanks for downloading! Keep up to date by checking the repository from time to time!", 7000);
@@ -511,23 +533,72 @@ function reload_jsons(callback) {
       BASEURL = "https://s1887204.github.io/javascript-clicker-attempt/";
       console.warn("Game was created by @s1887204. Link: https://github.com/s1887204/javascript-clicker-attempt");
     }
-
-    if (callback) callback();
   };
+
+  // SETS UP AUDIO AND THEIR PATHS //
+  // SETS UP AUDIO AND THEIR PATHS //
+  function audio_setup() {
+    // load background music //
+    audio.backgroundMusic = document.getElementById("background_music");
+    if (audio.backgroundMusic) {
+      audio.backgroundMusic.src = `${BASEURL}audio/backgroundMusic/SchemingWeasel_KevinMacleod.mp3`;
+    };
+
+  }
+
+  // CHANGES VALUES OF BACKGROUND MUSIC //
+  // CHANGES VALUES OF BACKGROUND MUSIC //
+  function change_bg_music(play, volume) {
+    if (audio.input_received) {
+      audio.backgroundMusic.volume = volume;
+
+      if (play && audio.backgroundMusic.paused) {
+        audio.backgroundMusic.play();
+      } else if (!play && !audio.backgroundMusic.paused) {
+        audio.backgroundMusic.pause();
+      }
+    }
+  }
+
+  // PLAYS A SFX SOUND THAT CORRESPONDS TO THE ID //
+  // PLAYS A SFX SOUND THAT CORRESPONDS TO THE ID //
+  function play_sfx_sound(PATH) {
+    if (audio.input_received) {
+      const sfx_audio = new Audio(PATH)
+
+      sfx_audio.play().catch(error => {
+        console.log("Error playing sfx: ", error)
+      });
+
+      sfx_audio.addEventListener("ended", function() {
+        audio.remove();
+      });
+
+    }
+  }
+
+  // BEGINS SOUNDS WHEN IT CAN //
+  // BEGINS SOUNDS WHEN IT CAN //
+  function begin_sounds() {
+      // plays bg music
+      change_bg_music(true, 1)
+  }
 
   // ON WEBSITE LOADED //
   // ON WEBSITE LOADED //
   window.onload = function() {
-    detect_running_location(function() {
+    // detects the location it is running from
+    detect_running_location();
 
-      reload_jsons(function() {
-        load_game();
-        display.updateScore();
-        display.updateShop();
-        display.updateAchievements();
-        display.updateUpgrades();
-      });
+    // loads audio
+    audio_setup();
 
+    reload_jsons(function() {
+      load_game();
+      display.updateScore();
+      display.updateShop();
+      display.updateAchievements();
+      display.updateUpgrades();
     });
 
     console.warn("Hey! Welcome to the console log! Report any errors you may see here! - Gord")
@@ -546,4 +617,14 @@ function reload_jsons(callback) {
 
   }, false);
 
-  // woag 500+ lines of code
+  // WHEN WINDOW IS CLICKED -- GIVES INPUT SO IT CAN PLAY SOUND //
+  // WHEN WINDOW IS CLICKEd -- GIVES INPUT SO IT CAN PLAY SOUND //
+  window.addEventListener("click", function () {
+    if (!audio.input_received) 
+      { 
+        audio.input_received = true; 
+        begin_sounds(); 
+      }
+  })
+
+  // woag 540+ lines of code
