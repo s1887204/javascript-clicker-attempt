@@ -500,7 +500,8 @@ function reload_jsons(callback) {
 
     } else if (window.location.hostname === "s1887204.github.io") { // game is being ran from the website.
       BASEURL = "https://s1887204.github.io/javascript-clicker-attempt/";
-      
+      console.log("Running on official website...")
+
     } else { // game is likely running from another website.
       BASEURL = "https://s1887204.github.io/javascript-clicker-attempt/";
       console.warn("Game was created by @s1887204. Link: https://github.com/s1887204/javascript-clicker-attempt");
