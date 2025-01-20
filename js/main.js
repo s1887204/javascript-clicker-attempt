@@ -485,7 +485,7 @@ function reload_jsons(callback) {
 
   // DETECT IF BEING RAN LOCALLY OR ON WEB (SETS UP BASEURL DONT REMOVE) //
   // DETECT IF BEING RAN LOCALLY OR ON WEB (SETS UP BASEURL DONT REMOVE) //
-  function detect_running_location() {
+  function detect_running_location(callback) {
     if (window.location.protocal == "file:") { // game is being ran from a file
       BASEURL = "./";
       notify("Thanks for downloading! Keep up to date by checking the repository from time to time!", 7000);
@@ -506,19 +506,23 @@ function reload_jsons(callback) {
       BASEURL = "https://s1887204.github.io/javascript-clicker-attempt/";
       console.warn("Game was created by @s1887204. Link: https://github.com/s1887204/javascript-clicker-attempt");
     }
+
+    if (callback) callback();
   };
 
   // ON WEBSITE LOADED //
   // ON WEBSITE LOADED //
   window.onload = function() {
-    detect_running_location();
+    detect_running_location(function() {
 
-    reload_jsons(function() {
-      load_game();
-      display.updateScore();
-      display.updateShop();
-      display.updateAchievements();
-      display.updateUpgrades();
+      reload_jsons(function() {
+        load_game();
+        display.updateScore();
+        display.updateShop();
+        display.updateAchievements();
+        display.updateUpgrades();
+      });
+
     });
 
     console.warn("Hey! Welcome to the console log! Report any errors you may see here! - Gord")
