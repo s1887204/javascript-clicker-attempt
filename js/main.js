@@ -209,7 +209,7 @@ function reload_jsons(callback) {
   console.log("Loading JSONS...")
     setTimeout(() => {
       // upgrade info json //
-     reloadJSON("/data/JSON/upgrades_info.json", (jsonData) => {
+     reloadJSON("../data/JSON/upgrades_info.json", (jsonData) => {
       if (jsonData) {
       //  console.log('Reloaded JSON Data:', jsonData);
        upgrade_info_json = {};
@@ -218,7 +218,7 @@ function reload_jsons(callback) {
      };
     });
 
-    reloadJSON("/data/JSON/achievements_info.json", (jsonData) => {
+    reloadJSON("../data/JSON/achievements_info.json", (jsonData) => {
       if (jsonData) {
        achievements_info_json = {};
        achievements_info_json = jsonData; 
