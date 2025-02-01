@@ -116,6 +116,10 @@
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Optional shadow */
 }
 
+.shoptButtonLocked {
+  filter: brightness(0%); /* Darken effect */
+}
+
 .shopButton {
   background-color: #8f8061;
   transition: all .3s ease-in-out;

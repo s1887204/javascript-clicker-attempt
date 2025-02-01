@@ -39,6 +39,10 @@ var game = {
         scorePerSecond += buildings.incomeidle[i] * buildings.count[i];
       }
       return scorePerSecond;
+    },
+
+    hasDecimal: function(number) {
+      return !Number.isInteger(number);
     }
   };
 
@@ -139,6 +143,18 @@ var game = {
           play_sfx_sound(`${BASEURL}audio/sfx/misc-denied.mp3`)
         }
       }
+    },
+
+    unlock: function(index) {
+      if (this.name[index]) {
+        
+        if (this.base_cost[index] <= game.score) {
+          this.unlocked[index] = true;
+          display.updateShop();
+          display.updateScore(); 
+        }
+
+      }
     }
   };
 
@@ -162,7 +178,7 @@ var game = {
         if (buildings.unlocked[i]) {
           document.getElementById("shopContainer").innerHTML += '<table class="shopButton" onclick="buildings.purchase('+i+', true)"><tr><td id="image"><img src="images/'+buildings.image[i]+'"></td><td id="nameAndCost"><p>'+buildings.name[i]+'</p><p><span>'+buildings.cost[i]+'</span> Clicks</p></td><td id="amount"><span>'+buildings.count[i]+'</span></td></tr></table>'
         } else if (!buildings.unlocked[i] && (buildings.unlocked[(i - 1)] == true || i == 0)) {
-          document.getElementById("shopContainer").innerHTML += '<table class="shopButton unselectable"><tr><td id="image"><img src="images/'+buildings.image[i]+'"></td><td id="nameAndCost"><p>???</p><p>??? Clicks</p></td><td id="amount"><span>???</span></td></tr></table>'
+          document.getElementById("shopContainer").innerHTML += '<table class="shopButton unselectable"><tr><td id="image"><img class="shoptButtonLocked" src="images/'+buildings.image[i]+'"></td><td id="nameAndCost"><p>???</p><p>??? Clicks</p></td><td id="amount"><span>?</span></td></tr></table>'
         }
 
       }
@@ -279,6 +295,7 @@ var game = {
       total_clicks: game.totalClicks,
       version: game.version,
       buildings_counts: buildings.count,
+      buildings_unlocked: buildings.unlocked,
       upgrades_purchased: upgrades.purchased,
       achievements_awarded : achievements.awarded,
     };
@@ -360,8 +377,13 @@ var game = {
       if (typeof saved_game.buildings_counts !== "undefined") {
         for (i = 0; i < saved_game.buildings_counts.length; i++) {
           buildings.count[i] = saved_game.buildings_counts[i];
+
+          if (saved_game.buildings_unlocked[i]) {
+            buildings.unlocked[i] = saved_game.buildings_unlocked[i]
+          }
+
           // console.log(buildings.count[i]);
- 
+  
           if (buildings.count[i] >= 1) {
             buildings.cost[i] = Math.ceil((buildings.count[i] * buildings.base_cost[i]) * 1.15); // PURCHASE MULTIPLIER
           } else {
@@ -377,15 +399,17 @@ var game = {
       }
       if (typeof saved_game.upgrades_purchased !== "undefined") {
         for (i = 0; i < saved_game.upgrades_purchased.length; i++) {
-          upgrades.purchased[i] = saved_game.upgrades_purchased[i];
+          if (saved_game.upgrades_purchased[i] != null) {
+            upgrades.purchased[i] = saved_game.upgrades_purchased[i];
 
-          if (upgrades.purchased[i]) {
-            if (upgrades.type[i] == "building") {
-              buildings.incomeidle[upgrades.buildingIndex[i]] *= upgrades.bonus[i]
-            } else if (upgrades.type[i] == "click") {
-              game.clickValue *= upgrades.bonus[i]
-            } else if (upgrades.type[i] == "clicktocps") {
-              game.retain_how_much_cps_toward_click += upgrades.bonus[i]
+            if (upgrades.purchased[i]) {
+              if (upgrades.type[i] == "building") {
+                buildings.incomeidle[upgrades.buildingIndex[i]] *= upgrades.bonus[i]
+              } else if (upgrades.type[i] == "click") {
+                game.clickValue *= upgrades.bonus[i]
+              } else if (upgrades.type[i] == "clicktocps") {
+                game.retain_how_much_cps_toward_click += upgrades.bonus[i]
+              }
             }
           }
         }
@@ -424,9 +448,12 @@ var game = {
 
     for (i = 0; i < buildings.name.length; i++) {
       if (!buildings.unlocked[i]) {
-        if (buildings.base_cost[i] <= game.score ) {
-          buildings.unlocked[i] = true;
-          display.updateShop();
+        if (buildings.base_cost[i] <= game.score) {
+          if (i == 0) { // exception if it is the first building 
+            buildings.unlock(i);
+          } else if (buildings.count[(i - 1)] >= 3) {
+            buildings.unlock(i);
+          }
         };
 
       }
@@ -504,7 +531,11 @@ var game = {
     if (game.clickValue >= 1000) {
       click_display = abbreviate_number((game.clickValue + cps_thats_added));
     } else {
-      click_display = (game.clickValue + cps_thats_added).toFixed(3); // stops the display from being over 2 decimals
+      if (game.hasDecimal(game.clickValue + cps_thats_added)) {
+        click_display = (game.clickValue + cps_thats_added).toFixed(3); // stops the display from being over 2 decimals
+      } else {
+        click_display = (game.clickValue + cps_thats_added) // just regular
+      }
     }
     
     // make click value label

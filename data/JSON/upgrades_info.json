@@ -3,57 +3,57 @@
   "upgrades": [
     {
       "name": "Stone Cursors",
-      "description": "Cursors are twice as efficient.",
+      "description": "Cursors are 10% more efficient.",
       "image": "upgds/stone_cursor.png",
       "type": "building",
-      "cost": 900,
+      "cost": 1000,
       "buildingIndex": 0,
       "requirement": 5,
-      "bonus": 2
+      "bonus": 1.1
     },
 
     {
       "name": "Iron Cursors",
-      "description": "Cursors are twice as efficient.",
+      "description": "Cursors are 10% more efficient.",
       "image": "upgds/iron_cursor.png",
       "type": "building",
-      "cost": 2000,
+      "cost": 5000,
       "buildingIndex": 0,
       "requirement": 15,
-      "bonus": 2
+      "bonus": 1.10
     },
 
     {
       "name": "Diamond Cursors",
-      "description": "Cursors are triple as efficient.",
+      "description": "Cursors are 25% more efficient.",
       "image": "no_texture.png",
       "type": "building",
-      "cost": 5000,
+      "cost": 15000,
       "buildingIndex": 0,
       "requirement": 25,
-      "bonus": 3
+      "bonus": 1.25
     },
 
     {
       "name": "Obsidian Cursors",
-      "description": "Cursors are twice as efficient.",
+      "description": "Cursors are 15% more efficient.",
       "image": "no_texture.png",
       "type": "building",
-      "cost": 12500,
+      "cost": 25000,
       "buildingIndex": 0,
       "requirement": 45,
-      "bonus": 2
+      "bonus": 1.15
     },
     
     {
       "name": "24 Hour Energy",
-      "description": "Makes miners twice as efficient.",
+      "description": "Makes miners 35% efficient.",
       "image": "no_texture.png",
       "type": "building",
-      "cost": 17500,
+      "cost": 85000,
       "buildingIndex": 1,
       "requirement": 5,
-      "bonus": 2
+      "bonus": 1.35
     },
 
     {
@@ -61,7 +61,7 @@
       "description": "Makes your clicks worth 1% of your CPS",
       "image": "upgds/clickspersecond_serum_1.png",
       "type": "clicktocps",
-      "cost": 25000,
+      "cost": 3500,
       "buildingIndex": -1,
       "requirement": 250,
       "bonus": 0.01
