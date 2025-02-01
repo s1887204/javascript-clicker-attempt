@@ -304,6 +304,38 @@ var game = {
     notify("Saved game...", 3000)
   };
 
+  // RECONCILES SAVES IN CASE UPDATE HAPPENS //
+  // RECONCILES SAVES IN CASE UPDATE HAPPENS //
+  function reconcile_save() {
+    var template = {
+      score: 0,
+      total_score: 0,
+      total_clicks: 0,
+      version: game.version,
+      buildings_counts: [],
+      buildings_unlocked: [],
+      upgrades_purchased: [],
+      achievements_awarded : [],
+    };
+
+
+    var saved_game = JSON.parse(localStorage.getItem("gameSave"))
+
+    if (saved_game.version != game.version) {
+
+      if(saved_game) {
+        for (i = 0; i < Object.keys(template).length; i++) {
+          if (typeof saved_game[i] == "undefined") {
+            saved_game[i] = template[i];
+          }
+        }
+      }
+
+    }
+  }
+
+  // INITIALIZES OR PUTS JSONS TO A TABLE //
+  // INITALIZES OR PUTS JSONS TO A TABLE //
   function initalize_game_jsons() {
     if (jsons.achievements == null || jsons.buildings == null || jsons.upgrades == null) {
       notify("One or more jsons failed to load. Reload for possible fix.");
@@ -368,6 +400,9 @@ var game = {
     };
 
     console.log(buildings)
+
+    // reconciles, or makes sure save is up to date before it uses it //
+    reconcile_save();
 
     var saved_game = JSON.parse(localStorage.getItem("gameSave"))
     if (localStorage.getItem("gameSave") !== null && localStorage.getItem("gameSave") !== "undefined") {
