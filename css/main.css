@@ -159,6 +159,18 @@
 }
 
 /* upgrades stuff (container) */
+#upgradeDivContainer {
+  width: 350px; /* Adjust width as needed */
+  height: 64px; /* Adjust height as needed */
+  overflow-y: auto; /* Enables vertical scrolling */
+  overflow-x: hidden; /* Prevents horizontal scrolling */
+  background-color: #b3a182; /* Optional background */
+  border: 2px solid #ccc; /* Optional border */
+  border-radius: 8px; /* Optional rounded corners */
+  padding: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Optional shadow */
+}
+
 #upgradeContainer img {
   height: 64px;
   width: 64px;
@@ -173,6 +185,18 @@
 }
 
 /* achievements stuff (container) */
+#achievementDivContainer {
+  width: 350px; /* Adjust width as needed */
+  height: 40px; /* Adjust height as needed */
+  overflow-y: auto; /* Enables vertical scrolling */
+  overflow-x: hidden; /* Prevents horizontal scrolling */
+  background-color: #b3a182; /* Optional background */
+  border: 2px solid #ccc; /* Optional border */
+  border-radius: 8px; /* Optional rounded corners */
+  padding: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Optional shadow */
+}
+
 #achievementContainer img {
   height: 40px;
   width: 40px;

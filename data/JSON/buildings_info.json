@@ -1,29 +1,32 @@
 {
-    "name": [
-        "Cursor",
-        "Cursor Miners",
-        "Cursor Gremlins",
-        "Cursor Army"
-    ],
+  "buildings": [
+    {
+      "name": "Cursor",
+      "image": "bdgs/cursor_icon.png",
+      "incomeidle": 0.5,
+      "base_cost": 20
+    },
+
+    {
+      "name": "Cursor Miners",
+      "image": "bdgs/cursor_miner_icon.png",
+      "incomeidle": 5,
+      "base_cost": 250
+    },
+
+    {
+      "name": "Cursor Gremlins",
+      "image": "bdgs/cursor_gremlin_icon.png",
+      "incomeidle": 50,
+      "base_cost": 5000
+    },
+
+    {
+      "name": "Cursor Army",
+      "image": "no_texture.png",
+      "incomeidle": 115,
+      "base_cost": 10000
+    }
     
-      "image": [
-        "bdgs/cursor_icon.png",
-        "bdgs/cursor_miner_icon.png",
-        "bdgs/cursor_gremlin_icon.png",
-        "no_texture.png"
-    ],
-
-      "incomeidle": [
-        1,
-        25,
-        100,
-        300
-    ],
-
-      "base_cost": [
-        25,
-        500,
-        1500,
-        6000
-    ]
+  ]
 }

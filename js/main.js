@@ -119,6 +119,8 @@ var game = {
     incomeidle: [],
     cost: [],
     base_cost: [],
+    
+    unlocked: [],
 
     purchase: function(index, clicked) {
       if (game.score >= this.cost[index]) {
@@ -152,7 +154,17 @@ var game = {
     updateShop: function() {
       document.getElementById("shopContainer").innerHTML = "";
       for (i = 0; i < buildings.name.length; i++) {
-        document.getElementById("shopContainer").innerHTML += '<table class="shopButton" onclick="buildings.purchase('+i+', true)"><tr><td id="image"><img src="images/'+buildings.image[i]+'"></td><td id="nameAndCost"><p>'+buildings.name[i]+'</p><p><span>'+buildings.cost[i]+'</span> Clicks</p></td><td id="amount"><span>'+buildings.count[i]+'</span></td></tr></table>'
+
+        if (buildings.base_cost[i] <= game.score) {
+          buildings.unlocked[i] = true;
+        }
+
+        if (buildings.unlocked[i]) {
+          document.getElementById("shopContainer").innerHTML += '<table class="shopButton" onclick="buildings.purchase('+i+', true)"><tr><td id="image"><img src="images/'+buildings.image[i]+'"></td><td id="nameAndCost"><p>'+buildings.name[i]+'</p><p><span>'+buildings.cost[i]+'</span> Clicks</p></td><td id="amount"><span>'+buildings.count[i]+'</span></td></tr></table>'
+        } else if (!buildings.unlocked[i] && (buildings.unlocked[(i - 1)] == true || i == 0)) {
+          document.getElementById("shopContainer").innerHTML += '<table class="shopButton unselectable"><tr><td id="image"><img src="images/'+buildings.image[i]+'"></td><td id="nameAndCost"><p>???</p><p>??? Clicks</p></td><td id="amount"><span>???</span></td></tr></table>'
+        }
+
       }
     },
 
@@ -249,7 +261,10 @@ var game = {
         jsons.achievements = jsonData; 
         };
 
-        if (callback) callback();
+        if (callback) {
+          callback();
+        };
+
       });
 
       }, 250) // 250 MS = 0.25 seconds
@@ -272,53 +287,69 @@ var game = {
     notify("Saved game...", 3000)
   };
 
+  function initalize_game_jsons() {
+    if (jsons.achievements == null || jsons.buildings == null || jsons.upgrades == null) {
+      notify("Reload Broswer to fix JSON issue!");
+    }
+
+    if (Array.isArray(jsons.upgrades.upgrades)) {
+      const upgrades_ = jsons.upgrades.upgrades;
+
+      upgrades_.forEach(upgrade => {
+        upgrades.name.push(upgrade.name);
+        upgrades.description.push(upgrade.description);
+        upgrades.image.push(upgrade.image);
+        upgrades.type.push(upgrade.type);
+        upgrades.cost.push(upgrade.cost);
+        upgrades.buildingIndex.push(upgrade.buildingIndex);
+        upgrades.requirement.push(upgrade.requirement);
+        upgrades.bonus.push(upgrade.bonus);
+      });
+
+    };
+
+    if (Array.isArray(jsons.buildings.buildings)) {
+      const buildings_ = jsons.buildings.buildings;
+
+      buildings_.forEach(building => {
+          console.log(`Building: ${building.name} loaded!`)
+          buildings.name.push(building.name);
+          buildings.image.push(building.image);
+          buildings.incomeidle.push(building.incomeidle);
+          buildings.base_cost.push(building.base_cost);
+      });
+
+    };
+
+    if (Array.isArray(jsons.achievements.achievements)) {
+      const achievements_ = jsons.achievements.achievements;
+
+
+      achievements_.forEach(achievement => {
+        console.log(`Achievement: ${achievement.name} loaded!`)
+        achievements.name.push(achievement.name);
+        achievements.description.push(achievement.description);
+        achievements.image.push(achievement.image);
+        achievements.type.push(achievement.type);
+        achievements.requirement.push(achievement.requirement);
+        achievements.objectIndex.push(achievement.objectIndex);
+      });
+    }
+  }
+
   // LOAD GAME //
   // LOAD GAME //
   function load_game() {
-    // console.log(jsons.upgrades)
-    
-    // load upgrades json //
-    for (const category in jsons.upgrades) {
-      for (const upgrade_value in category) {
-        if (typeof (jsons.upgrades[category][upgrade_value]) !== "undefined") {
-          if (upgrades[category][upgrade_value] !== jsons.upgrades[category][upgrade_value]) {
-            upgrades[category][upgrade_value] = jsons.upgrades[category][upgrade_value]
-          }
-          // console.log(category + " // " + upgrade_value + " // " + jsons.upgrades[category][upgrade_value])
-        }
-      }
-    };
-    
-    // load buildings json //
-    for (const category in jsons.buildings) {
-      for (const building_value in category) {
-        if (typeof (jsons.buildings[category][building_value]) !== "undefined") {
-          if (buildings[category][building_value] !== jsons.buildings[category][building_value]) {
-            buildings[category][building_value] = jsons.buildings[category][building_value];
-          };
-          // console.log(category + " // " + achievement_value + " // " + jsons.buildings[category][achievement_value]);
-        };
-      };
-    };
+    console.log(jsons.upgrades)
 
     // fixes bug from loading buildings //
     for (let i = 0; i < buildings.name.length; i++) {
       buildings.count[i] = 0;
-    }
+      buildings.cost[i] = buildings.base_cost[i];
+      buildings.unlocked[i] = false;
+    };
 
     console.log(buildings)
-
-    // load achievement json //
-    for (const category in jsons.achievements) {
-      for (const achievement_value in category) {
-        if (typeof (jsons.achievements[category][achievement_value]) !== "undefined") {
-          if (achievements[category][achievement_value] !== jsons.achievements[category][achievement_value]) {
-            achievements[category][achievement_value] = jsons.achievements[category][achievement_value];
-          };
-          // console.log(category + " // " + achievement_value + " // " + jsons.buildings[category][achievement_value]);
-        };
-      };
-    };
 
     var saved_game = JSON.parse(localStorage.getItem("gameSave"))
     if (localStorage.getItem("gameSave") !== null && localStorage.getItem("gameSave") !== "undefined") {
@@ -389,6 +420,16 @@ var game = {
             else if (achievements.type[i] == "click" && game.totalClicks >= achievements.requirement[i]) achievements.earn(i);
             else if (achievements.type[i] == "building" && buildings.count[achievements.objectIndex[i]] >= achievements.requirement[i]) achievements.earn(i);
         }
+    };
+
+    for (i = 0; i < buildings.name.length; i++) {
+      if (!buildings.unlocked[i]) {
+        if (buildings.base_cost[i] <= game.score ) {
+          buildings.unlocked[i] = true;
+          display.updateShop();
+        };
+
+      }
     };
 
     game.addToScore(game.getScorePerSecond());
@@ -590,7 +631,7 @@ var game = {
       notify("Thanks for downloading and hosting!", 2000);
 
     } else if (/^\d{1,3}(\.\d{1,3}){3}$/.test(window.location.hostname)) { // game is being ran from an IP (ran from a place without a web link, weird)
-      BASEURL = "http://${window.location.hostname}/";
+      BASEURL = `http://${window.location.hostname}/`;
       notify("This game is being ran from a random IP, be careful on what you do!", 9000);
 
     } else if (window.location.hostname === "s1887204.github.io") { // game is being ran from the website.
@@ -665,6 +706,8 @@ var game = {
     audio_setup();
 
     reload_jsons(function() {
+      initalize_game_jsons();
+
       load_game();
       display.updateScore();
       display.updateShop();

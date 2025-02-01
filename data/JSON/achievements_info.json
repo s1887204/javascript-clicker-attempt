@@ -1,39 +1,42 @@
 {
-    "name": [
-        "A new budget beginning...",
-        "Lend a hand?",
-        "Mutated Hands",
+    "achievements": [
 
-        "Clicker Thousand-er."
-    ],
-    "description": [
-        "Start your journey by clicking the button once.",
-        "Buy a cursor to help you.",
-        "Buy over 100 cursors",
-        "Get 1000 clicks."
-    ],
-    "image": [
-        "achvs/new_beginning.png",
-        "bdgs/cursor_icon.png",
-        "achvs/100_cursors.png",
-        "no_texture.png"
-    ],
-    "type": [
-        "click",
-        "building",
-        "building",
-        "score"
-    ],
-    "requirement": [
-        1,
-        1,
-        100,
-        1000
-    ],
-    "objectIndex": [
-        -1,
-        0,
-        0,
-        -1
+      {
+        "name": "A new budget beginning...",
+        "description": "Start your journey by clicking the button once.",
+        "image": "achvs/new_beginning.png",
+        "type": "click",
+        "requirement": 1,
+        "objectIndex": -1
+      },
+
+      {
+        "name": "Lend a hand?",
+        "description": "Buy a cursor to help you.",
+        "image": "bdgs/cursor_icon.png",
+        "type": "building",
+        "requirement": 1,
+        "objectIndex": 0
+      },
+
+      {
+        "name": "Mutated Hands",
+        "description": "Buy over 100 cursors",
+        "image": "achvs/100_cursors.png",
+        "type": "building",
+        "requirement": 100,
+        "objectIndex": 0
+      },
+
+      {
+        "name": "Clicker Thousand-er.",
+        "description": "Get 1000 clicks.",
+        "image": "no_texture.png",
+        "type": "score",
+        "requirement": 1000,
+        "objectIndex": -1
+      }
+      
     ]
-}
+  }
+  

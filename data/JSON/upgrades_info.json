@@ -1,82 +1,72 @@
 {
-  "name": [
-    "Stone Cursors",
-    "Iron Cursors",
-    "Diamond Cursors",
-    "Obsidian Cursors",
+  
+  "upgrades": [
+    {
+      "name": "Stone Cursors",
+      "description": "Cursors are twice as efficient.",
+      "image": "upgds/stone_cursor.png",
+      "type": "building",
+      "cost": 900,
+      "buildingIndex": 0,
+      "requirement": 5,
+      "bonus": 2
+    },
 
-    "24 Hour Energy",
+    {
+      "name": "Iron Cursors",
+      "description": "Cursors are twice as efficient.",
+      "image": "upgds/iron_cursor.png",
+      "type": "building",
+      "cost": 2000,
+      "buildingIndex": 0,
+      "requirement": 15,
+      "bonus": 2
+    },
 
-    "Click Mutation Serum - Stage I"
-  ],
-  "description": [
-    "Cursors are twice as efficient.",
-    "Cursors are twice as efficient.",
-    "Cursors are triple as efficient.",
-    "Cursors are twice as efficient.",
+    {
+      "name": "Diamond Cursors",
+      "description": "Cursors are triple as efficient.",
+      "image": "no_texture.png",
+      "type": "building",
+      "cost": 5000,
+      "buildingIndex": 0,
+      "requirement": 25,
+      "bonus": 3
+    },
 
-    "Makes miners twice as efficient.",
-
-    "Makes your clicks worth 1% of your CPS"
-  ],
-  "image": [
-    "upgds/stone_cursor.png",
-    "upgds/iron_cursor.png",
-    "no_texture.png",
-    "no_texture.png",
-
-    "no_texture.png",
-
-    "upgds/clickspersecond_serum_1.png"
-  ],
-  "type": [
-    "building",
-    "building",
-    "building",
-    "building",
+    {
+      "name": "Obsidian Cursors",
+      "description": "Cursors are twice as efficient.",
+      "image": "no_texture.png",
+      "type": "building",
+      "cost": 12500,
+      "buildingIndex": 0,
+      "requirement": 45,
+      "bonus": 2
+    },
     
-    "building",
+    {
+      "name": "24 Hour Energy",
+      "description": "Makes miners twice as efficient.",
+      "image": "no_texture.png",
+      "type": "building",
+      "cost": 17500,
+      "buildingIndex": 1,
+      "requirement": 5,
+      "bonus": 2
+    },
 
-    "clicktocps"
-  ],
-  "cost": [
-    300,
-    900,
-    2200,
-    3500,
+    {
+      "name": "Click Mutation Serum - Stage I",
+      "description": "Makes your clicks worth 1% of your CPS",
+      "image": "upgds/clickspersecond_serum_1.png",
+      "type": "clicktocps",
+      "cost": 25000,
+      "buildingIndex": -1,
+      "requirement": 250,
+      "bonus": 0.01
+    }
 
-    1000,
-
-    1000
-  ],
-  "buildingIndex": [
-    0,
-    0,
-    0,
-    0,
-
-    1,
-
-    -1
-  ],
-  "requirement": [
-    5,
-    15,
-    25,
-    45,
-
-    5,
-
-    250
-  ],
-  "bonus": [
-    2,
-    2,
-    3,
-    2,
-
-    2,
-    
-    0.01
   ]
+
 }
