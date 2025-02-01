@@ -306,7 +306,8 @@ var game = {
 
   function initalize_game_jsons() {
     if (jsons.achievements == null || jsons.buildings == null || jsons.upgrades == null) {
-      notify("Reload Broswer to fix JSON issue!");
+      notify("One or more jsons failed to load. Reload for possible fix.");
+      throw new Error("JSONS failed load! Can not start game! Check internet!")
     }
 
     if (Array.isArray(jsons.upgrades.upgrades)) {
