@@ -507,9 +507,9 @@ var game = {
     display.updateUpgrades();
   }, 10000) // 10000 MS = 10 Seconds
 
-  // SPAWN GOLDEN LENIS RANDOMLY // -- every 60 to 120 seconds (1 - 2 minutes)
+  // SPAWN GOLDEN LENIS RANDOMLY // -- every 30 to 60 seconds (30 seconds - 1 minute)
   // SPAWN GOLDEN LENIS RANDOMLY // 
-  setInterval(spawn_golden_nelson, rng(60000, 120000))
+  setInterval(spawn_golden_nelson, rng(30000, 60000))
 
   // GAME SAVING //
   // GAME SAVING //
@@ -576,41 +576,45 @@ var game = {
   // SUMMON GOLDEN COOKIE //
   // SUMMON GOLDEN COOKIE //
   function spawn_golden_nelson() {
-    let goldenCookie = document.createElement("div");
-    goldenCookie.classList.add("golden_nelson");
+    let chance = rng(1, 64); // has 1 in 64 chance of happening!
 
-    let x = Math.random() * (window.innerWidth - 70); // Adjust to stay within bounds
-    let y = Math.random() * (window.innerHeight - 60);
-
-    goldenCookie.style.left = `${x}px`;
-    goldenCookie.style.top = `${y}px`;
-    goldenCookie.style.display = "block";
-
-    effect_fade_in(goldenCookie, 10000) // fades in in 10 seconds
-
-    document.body.appendChild(goldenCookie);
-
-    goldenCookie.addEventListener("click", () => {
-
-      if (goldenCookie.style.opacity >= 0.2) {
-        let bonus = rng(
-          (game.score * 0.10),
-          (game.score * 0.35),
-        );
-
-        game.score += bonus;
-
-        notify(`Golden Lenis! +${bonus} clicks!`);
-        goldenCookie.style.display = "none";
-        goldenCookie.removeEventListener("click");
+    if (chance == 1) {
+      let goldenCookie = document.createElement("div");
+      goldenCookie.classList.add("golden_nelson");
+  
+      let x = Math.random() * (window.innerWidth - 70); // Adjust to stay within bounds
+      let y = Math.random() * (window.innerHeight - 60);
+  
+      goldenCookie.style.left = `${x}px`;
+      goldenCookie.style.top = `${y}px`;
+      goldenCookie.style.display = "block";
+  
+      effect_fade_in(goldenCookie, 10000) // fades in in 10 seconds
+  
+      document.body.appendChild(goldenCookie);
+  
+      goldenCookie.addEventListener("click", () => {
+  
+        if (goldenCookie.style.opacity >= 0.2) {
+          let bonus = rng(
+            (game.score * 0.10),
+            (game.score * 0.35),
+          );
+  
+          game.score += bonus;
+  
+          notify(`Golden Lenis! +${bonus} clicks!`);
+          goldenCookie.style.display = "none";
+          goldenCookie.removeEventListener("click");
+      }
+  
+      setTimeout(() => { // Removes itself in 25 seconds.
+          goldenCookie.style.display = "none";
+          goldenCookie.removeEventListener("click");
+        }, 25000);
+        
+      });
     }
-
-    setTimeout(() => { // Removes itself in 25 seconds.
-        goldenCookie.style.display = "none";
-        goldenCookie.removeEventListener("click");
-      }, 25000);
-      
-    });
   }
 
   // CREATE NUMBER ON CLICK //
