@@ -6,7 +6,7 @@
       "description": "Cursors are 10% more efficient.",
       "image": "upgds/stone_cursor.png",
       "type": "building",
-      "cost": 1000,
+      "cost": 4500,
       "buildingIndex": 0,
       "requirement": 5,
       "bonus": 1.1
@@ -17,7 +17,7 @@
       "description": "Cursors are 10% more efficient.",
       "image": "upgds/iron_cursor.png",
       "type": "building",
-      "cost": 5000,
+      "cost": 10000,
       "buildingIndex": 0,
       "requirement": 15,
       "bonus": 1.10
@@ -28,7 +28,7 @@
       "description": "Cursors are 25% more efficient.",
       "image": "no_texture.png",
       "type": "building",
-      "cost": 15000,
+      "cost": 25000,
       "buildingIndex": 0,
       "requirement": 25,
       "bonus": 1.25
@@ -39,7 +39,7 @@
       "description": "Cursors are 15% more efficient.",
       "image": "no_texture.png",
       "type": "building",
-      "cost": 25000,
+      "cost": 75000,
       "buildingIndex": 0,
       "requirement": 45,
       "bonus": 1.15

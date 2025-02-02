@@ -68,6 +68,24 @@
   font-weight: bold;
 }
 
+/* Golden Cookie Stuff */
+.golden_nelson {
+  background-image: url("../images/game/nelson_lenis_cookie.png");
+  display: none;
+  position: fixed;
+  cursor: pointer;
+
+  height: 128px;
+  width: 128px;
+
+  position: relative;
+  transition: all .25s ease-in-out;
+  z-index: 3;
+}
+
+.golden_nelson:hover{ transform: scale(1.10) }
+.golden_nelson:active{ transform: scale(0.99) }
+
 /* clicker stuff */
 /* .clickercontainer img {
   width:512px;
@@ -81,13 +99,14 @@
 .clickercontainer img:active { transform: scale(0.95); } */
 
 #gameclicker {
-  background-image: url('../images/button_texture_idle.png');
+  background-image: url('../images/game/button_texture_idle.png');
   background-size: contain;
   position: relative;
   transition: all .25s ease-in-out;
   height: 256px;
   width: 512px;
 
+  cursor: pointer;
 }
 
 #gameclicker:hover{ transform: scale(1.10) }

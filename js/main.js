@@ -110,6 +110,8 @@ var game = {
               display.updateScore();
               display.updateUpgrades();
             }
+        } else if (!this.purchased[index] && game.score < this.cost[index]) {
+          play_sfx_sound(`${BASEURL}audio/sfx/misc-denied.mp3`)
         }
     },
   };
@@ -295,7 +297,6 @@ var game = {
       total_clicks: game.totalClicks,
       version: game.version,
       buildings_counts: buildings.count,
-      buildings_unlocked: buildings.unlocked,
       upgrades_purchased: upgrades.purchased,
       achievements_awarded : achievements.awarded,
     };
@@ -303,6 +304,23 @@ var game = {
     console.log("Game saved!")
     notify("Saved game...", 3000)
   };
+
+  // CHECK BUILDING UNLOCKING //
+  // CHECK BUILDING UNLOCKING //
+  function check_buildings_unlocked() {
+    for (i = 0; i < buildings.name.length; i++) {
+      if (!buildings.unlocked[i]) {
+        if (buildings.base_cost[i] <= game.score) {
+          if (i == 0) { // exception if it is the first building 
+            buildings.unlock(i);
+          } else if (buildings.count[(i - 1)] >= 2) {
+            buildings.unlock(i);
+          }
+        };
+
+      }
+    };
+  }
 
   // RECONCILES SAVES IN CASE UPDATE HAPPENS //
   // RECONCILES SAVES IN CASE UPDATE HAPPENS //
@@ -313,7 +331,6 @@ var game = {
       total_clicks: 0,
       version: game.version,
       buildings_counts: [],
-      buildings_unlocked: [],
       upgrades_purchased: [],
       achievements_awarded : [],
     };
@@ -362,7 +379,7 @@ var game = {
       const buildings_ = jsons.buildings.buildings;
 
       buildings_.forEach(building => {
-          console.log(`Building: ${building.name} loaded!`)
+          // console.log(`Building: ${building.name} loaded!`)
           buildings.name.push(building.name);
           buildings.image.push(building.image);
           buildings.incomeidle.push(building.incomeidle);
@@ -376,7 +393,7 @@ var game = {
 
 
       achievements_.forEach(achievement => {
-        console.log(`Achievement: ${achievement.name} loaded!`)
+        // console.log(`Achievement: ${achievement.name} loaded!`)
         achievements.name.push(achievement.name);
         achievements.description.push(achievement.description);
         achievements.image.push(achievement.image);
@@ -390,7 +407,7 @@ var game = {
   // LOAD GAME //
   // LOAD GAME //
   function load_game() {
-    console.log(jsons.upgrades)
+    // console.log(jsons.upgrades)
 
     // fixes bug from loading buildings //
     for (let i = 0; i < buildings.name.length; i++) {
@@ -399,7 +416,7 @@ var game = {
       buildings.unlocked[i] = false;
     };
 
-    console.log(buildings)
+    // console.log(buildings)
 
     // reconciles, or makes sure save is up to date before it uses it //
     reconcile_save();
@@ -413,10 +430,6 @@ var game = {
       if (typeof saved_game.buildings_counts !== "undefined") {
         for (i = 0; i < saved_game.buildings_counts.length; i++) {
           buildings.count[i] = saved_game.buildings_counts[i];
-
-          if (saved_game.buildings_unlocked[i]) {
-            buildings.unlocked[i] = saved_game.buildings_unlocked[i]
-          }
 
           // console.log(buildings.count[i]);
   
@@ -458,7 +471,7 @@ var game = {
       notify("Successfully loaded game...", 4500)
     };
 
-    console.log("New building: ", buildings)
+    // console.log("New building: ", buildings)
   };
   
   // RESET GAME //
@@ -482,18 +495,7 @@ var game = {
         }
     };
 
-    for (i = 0; i < buildings.name.length; i++) {
-      if (!buildings.unlocked[i]) {
-        if (buildings.base_cost[i] <= game.score) {
-          if (i == 0) { // exception if it is the first building 
-            buildings.unlock(i);
-          } else if (buildings.count[(i - 1)] >= 3) {
-            buildings.unlock(i);
-          }
-        };
-
-      }
-    };
+    check_buildings_unlocked();
 
     game.addToScore(game.getScorePerSecond());
   }, 1000); // 1000 MS = 1 Second
@@ -505,11 +507,36 @@ var game = {
     display.updateUpgrades();
   }, 10000) // 10000 MS = 10 Seconds
 
+  // SPAWN GOLDEN LENIS RANDOMLY // -- every 60 to 120 seconds (1 - 2 minutes)
+  // SPAWN GOLDEN LENIS RANDOMLY // 
+  setInterval(spawn_golden_nelson, rng(60000, 120000))
+
   // GAME SAVING //
   // GAME SAVING //
   setInterval(function() {
     save_game();
   }, 30000); // 30000 MS = 30 Seconds
+
+  // FADE IN FUNC //
+  // FADE IN FUNC //
+  function effect_fade_in(element, duration, callback) {
+    element.style.opacity = 0;
+    element.style.display = "block"; // Show it first
+    let start = performance.now();
+
+    function animate(time) {
+        let progress = (time - start) / duration;
+        if (progress < 1) {
+            element.style.opacity = progress;
+            requestAnimationFrame(animate);
+        } else {
+            element.style.opacity = 1;
+            if (callback) callback();
+        }
+    }
+
+    requestAnimationFrame(animate);
+}
 
   // FADE OUT FUNC //
   // FADE OUT FUNC //
@@ -521,8 +548,8 @@ var game = {
       opacity -= 50 / duration
 
       if (opacity <= final_opacity) {
-        clearInterval(elementFadingInterval)
         call_back();
+        clearInterval(elementFadingInterval)
       }
 
       element.style.opacity = opacity
@@ -531,7 +558,7 @@ var game = {
 
   // RNG //
   // RNG //
-  function give_random_number(min, max) {
+  function rng(min, max) {
     return Math.round(Math.random() * (max - min) + min);
   }
 
@@ -546,6 +573,46 @@ var game = {
     return formatted_number
   }
 
+  // SUMMON GOLDEN COOKIE //
+  // SUMMON GOLDEN COOKIE //
+  function spawn_golden_nelson() {
+    let goldenCookie = document.createElement("div");
+    goldenCookie.classList.add("golden_nelson");
+
+    let x = Math.random() * (window.innerWidth - 70); // Adjust to stay within bounds
+    let y = Math.random() * (window.innerHeight - 60);
+
+    goldenCookie.style.left = `${x}px`;
+    goldenCookie.style.top = `${y}px`;
+    goldenCookie.style.display = "block";
+
+    effect_fade_in(goldenCookie, 10000) // fades in in 10 seconds
+
+    document.body.appendChild(goldenCookie);
+
+    goldenCookie.addEventListener("click", () => {
+
+      if (goldenCookie.style.opacity >= 0.2) {
+        let bonus = rng(
+          (game.score * 0.10),
+          (game.score * 0.35),
+        );
+
+        game.score += bonus;
+
+        notify(`Golden Lenis! +${bonus} clicks!`);
+        goldenCookie.style.display = "none";
+        goldenCookie.removeEventListener("click");
+    }
+
+    setTimeout(() => { // Removes itself in 25 seconds.
+        goldenCookie.style.display = "none";
+        goldenCookie.removeEventListener("click");
+      }, 25000);
+      
+    });
+  }
+
   // CREATE NUMBER ON CLICK //
   // CREATE NUMBER ON CLICK //
   function createNumberOnClicker(event) {
@@ -555,7 +622,7 @@ var game = {
     // get position the clicker was clicked in
     let clickerOffset = clicker.getBoundingClientRect()
     let position = {
-      x: event.pageX - clickerOffset.left + give_random_number(-15, 20),
+      x: event.pageX - clickerOffset.left + rng(-15, 20),
       y: event.pageY - clickerOffset.top,
     }
 
@@ -776,6 +843,9 @@ var game = {
       initalize_game_jsons();
 
       load_game();
+
+      check_buildings_unlocked();
+
       display.updateScore();
       display.updateShop();
       display.updateAchievements();
@@ -794,7 +864,10 @@ var game = {
       } else if (event.ctrlKey && event.which == 81) { // Key = CTRL + Q
         event.preventDefault();
         reset_game_save();
-      }
+      } // else if (event.ctrlKey && event.which == 76) { // Key = CTRL + L DEBUG
+      //   event.preventDefault();
+      //   spawn_golden_nelson();
+      // }
 
   }, false);
 
@@ -808,4 +881,4 @@ var game = {
       }
   })
 
-  // woag 670+ lines of code
+  // woag 800+ lines of code
