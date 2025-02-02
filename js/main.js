@@ -865,6 +865,9 @@ var game = {
 
     // loads favicon
     document.head.innerHTML += `<link rel="icon" type="image/x-icon" href="${BASEURL}images/web/favicon.ico">`
+
+    // attempt to load shop again //
+    display.updateShop();
   };
 
   // ON KEY DOWN EVENT //
