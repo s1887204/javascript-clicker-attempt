@@ -23,9 +23,16 @@
 
     {
       "name": "Cursor Army",
-      "image": "no_texture.png",
-      "incomeidle": 115,
-      "base_cost": 10000
+      "image": "bdgs/cursor_army_icon.png",
+      "incomeidle": 85,
+      "base_cost": 15000
+    },
+
+    {
+      "name": "Keyboard",
+      "image": "bdgs/keyboard_icon.png",
+      "incomeidle": 150,
+      "base_cost": 50000
     }
     
   ]

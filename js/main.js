@@ -110,6 +110,8 @@ var game = {
               display.updateScore();
               display.updateUpgrades();
             }
+
+            play_sfx_sound(`${BASEURL}audio/sfx/upgrade-click-purchase.mp3`)
         } else if (!this.purchased[index] && game.score < this.cost[index]) {
           play_sfx_sound(`${BASEURL}audio/sfx/misc-denied.mp3`)
         }
@@ -576,7 +578,7 @@ var game = {
   // SUMMON GOLDEN COOKIE //
   // SUMMON GOLDEN COOKIE //
   function spawn_golden_nelson() {
-    let chance = rng(1, 64); // has 1 in 64 chance of happening!
+    let chance = rng(1, 16); // has 1 in 16 chance of happening!
 
     if (chance == 1) {
       let goldenCookie = document.createElement("div");
@@ -605,6 +607,9 @@ var game = {
   
           notify(`Golden Lenis! +${bonus} clicks!`);
           goldenCookie.style.display = "none";
+
+          play_sfx_sound(`${BASEURL}sfx/goldenLenis-collect.mp3`)
+
           goldenCookie.removeEventListener("click");
       }
   

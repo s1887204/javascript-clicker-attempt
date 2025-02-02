@@ -31,7 +31,7 @@
       {
         "name": "Clicker Thousand-er.",
         "description": "Get 1000 clicks.",
-        "image": "no_texture.png",
+        "image": "achvs/1000_clicks.png",
         "type": "score",
         "requirement": 1000,
         "objectIndex": -1
