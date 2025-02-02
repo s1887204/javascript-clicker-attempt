@@ -7,6 +7,8 @@
   Warning: Project has used AI technology, like ChatGPT to help remidate any issues that the game has had.
 
   THANKS! - gord (s1887204)
+
+  (whats good kain :nerd:)
 */
 
 // GAME //

@@ -1,3 +1,16 @@
+/* 
+  Welcome to the CSS file of the game "javascript-clicker-attempt!"
+
+  This contains all of the design info. Change it as you like, this game is open source on Github also, in case you wanna check it out and fork it!
+
+  Reminder, AI technology, like ChatGPT, has been used to aid any issues i've had with the game, including the .css file.
+
+  Thanks,
+
+  gord (s1887204)
+*/
+
+
 /* .oldbutton { 
   background-color: #04AA6D;
   border: none;
@@ -47,6 +60,7 @@
   /* background-color: #bba986;
   border-radius: 15px; */
   font-family: 'LocalFranklinGothic', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 13px;
   margin-top: 15%;
   width: 30%;
   height: 50%;
@@ -55,7 +69,7 @@
 
 .sectionrightTitle {
   font-family: 'LocalFranklinGothic', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  font-size: 24px;
+  font-size: 20px;
 }
 
 /* game stuff */
@@ -65,7 +79,7 @@
   width: 90%;
   padding: 3px;
   border-radius: 15px;
-  font-size: 36px;
+  font-size: 30px;
   font-family: 'LocalFranklinGothic', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   font-weight: bold;
 }
@@ -116,10 +130,10 @@
 
 #gameclicker > .number {
   z-index: 99;
-  font-size: 28px;
+  font-size: 24px;
   font-family: 'LocalFranklinGothic', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 
-  color: #a89a81;
+  color: #c6b9a2;
   position: absolute;
 }
 
@@ -165,6 +179,7 @@
 
 .shopButton #nameAndCost p {
   font-family: 'LocalFranklinGothic', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 16px;
   color: #dabc81;
 
   margin: 0px;
@@ -172,14 +187,17 @@
 }
 
 .shopButton #nameAndCost p:first-of-type {
+  color: #e8c57e;
+
   font-family: 'LocalFranklinGothic', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  font-size: 24px
+  font-size: 17px
 }
 
 .shopButton #amount {
   font-size: 56px;
   color: #554c39;
   font-family: 'LocalFranklinGothic', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 48px;
   width: 15%;
 }
 
@@ -258,7 +276,7 @@
   color: white; /* White text */
   padding: 15px 20px;
   border-radius: 10px;
-  font-size: 16px;
+  font-size: 14px;
   box-shadow: 0 4px 15px rgba(87, 87, 87, 0.5);
   display: inline-block;
   opacity: 0;
