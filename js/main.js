@@ -855,8 +855,11 @@ var game = {
       display.updateAchievements();
       display.updateUpgrades();
     });
-
+    
     console.warn("Hey! Welcome to the console log! Report any errors you may see here! - Gord")
+
+    // loads favicon
+    document.head.innerHTML += `<link rel="icon" type="image/x-icon" href="${BASEURL}images/web/favicon.ico">`
   };
 
   // ON KEY DOWN EVENT //
