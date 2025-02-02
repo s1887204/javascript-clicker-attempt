@@ -13,8 +13,10 @@
 
 /* Franklin Gothic Medium */
 @font-face {
-  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  src: url("../fonts/OPTIFranklinGothic-Medium.otf");
+  font-family: 'LocalFranklinGothic';
+  src: url('../fonts/OPTIFranklinGothic-Medium.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
 }
 /* in case not automatically loaded on person's computer. */
 
@@ -44,7 +46,7 @@
 .sectionFooter {
   /* background-color: #bba986;
   border-radius: 15px; */
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-family: 'LocalFranklinGothic', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   margin-top: 15%;
   width: 30%;
   height: 50%;
@@ -52,7 +54,7 @@
 }
 
 .sectionrightTitle {
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-family: 'LocalFranklinGothic', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   font-size: 24px;
 }
 
@@ -64,7 +66,7 @@
   padding: 3px;
   border-radius: 15px;
   font-size: 36px;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-family: 'LocalFranklinGothic', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   font-weight: bold;
 }
 
@@ -115,7 +117,7 @@
 #gameclicker > .number {
   z-index: 99;
   font-size: 28px;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-family: 'LocalFranklinGothic', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 
   color: #a89a81;
   position: absolute;
@@ -162,7 +164,7 @@
 }
 
 .shopButton #nameAndCost p {
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-family: 'LocalFranklinGothic', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   color: #dabc81;
 
   margin: 0px;
@@ -170,14 +172,14 @@
 }
 
 .shopButton #nameAndCost p:first-of-type {
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-family: 'LocalFranklinGothic', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   font-size: 24px
 }
 
 .shopButton #amount {
   font-size: 56px;
   color: #554c39;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-family: 'LocalFranklinGothic', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   width: 15%;
 }
 
@@ -236,7 +238,7 @@
 /* Notification Center */
 #notificationContainer {
   position: fixed;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-family: 'LocalFranklinGothic', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   top: 50%; /* Center vertically */
   left: 50%; /* Center horizontally */
   transform: translate(-50%, -50%); /* Adjust for exact centering */
