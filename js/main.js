@@ -898,4 +898,9 @@ var game = {
       }
   })
 
-  // woag 800+ lines of code
+  // WHEN RIGHT CLICKED -- STOP THE STUPID PROMPT FROM APPEARING ??
+  window.addEventListener("contextmenu", function (e) {
+      e.preventDefault();
+  });
+
+  // woag 900+ lines of code
