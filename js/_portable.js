@@ -182,9 +182,9 @@ var game = {
         }
 
         if (buildings.unlocked[i]) {
-          document.getElementById("shopContainer").innerHTML += '<table class="shopButton" onclick="buildings.purchase('+i+', true)"><tr><td id="image"><img src='+{BASEURL}+'"images/'+buildings.image[i]+'"></td><td id="nameAndCost"><p>'+buildings.name[i]+'</p><p><span>'+buildings.cost[i]+'</span> Clicks</p></td><td id="amount"><span>'+buildings.count[i]+'</span></td></tr></table>'
+          document.getElementById("shopContainer").innerHTML += `<table class="shopButton" onclick="buildings.purchase('+i+', true)"><tr><td id="image"><img src="${BASEURL}images/`+buildings.image[i]+'"></td><td id="nameAndCost"><p>'+buildings.name[i]+'</p><p><span>'+buildings.cost[i]+'</span> Clicks</p></td><td id="amount"><span>'+buildings.count[i]+'</span></td></tr></table>'
         } else if (!buildings.unlocked[i] && (buildings.unlocked[(i - 1)] == true || i == 0)) {
-          document.getElementById("shopContainer").innerHTML += '<table class="shopButton unselectable"><tr><td id="image"><img class="shoptButtonLocked" src='+{BASEURL}+'"images/'+buildings.image[i]+'"></td><td id="nameAndCost"><p>???</p><p>??? Clicks</p></td><td id="amount"><span>?</span></td></tr></table>'
+          document.getElementById("shopContainer").innerHTML += `<table class="shopButton unselectable"><tr><td id="image"><img class="shoptButtonLocked" src=${BASEURL}images/`+buildings.image[i]+'></td><td id="nameAndCost"><p>???</p><p>??? Clicks</p></td><td id="amount"><span>?</span></td></tr></table>'
         }
 
       }
@@ -196,11 +196,11 @@ var game = {
             if (!upgrades.purchased[i]) {
                 // console.log(upgrades.name[i])
                 if (upgrades.type[i] == "building" && buildings.count[upgrades.buildingIndex[i]] >= upgrades.requirement[i]) {
-                    document.getElementById("upgradeContainer").innerHTML += '<img src='+{BASEURL}+'"images/'+upgrades.image[i]+'"title=" '+upgrades.name[i]+' &#10; '+upgrades.description[i]+' &#10; ('+upgrades.cost[i]+' clicks)" onclick="upgrades.purchase('+i+')">'
+                    document.getElementById("upgradeContainer").innerHTML += `<img src="${BASEURL}images/`+upgrades.image[i]+'"title=" '+upgrades.name[i]+' &#10; '+upgrades.description[i]+' &#10; ('+upgrades.cost[i]+' clicks)" onclick="upgrades.purchase('+i+')">'
                 } else if (upgrades.type[i] == "click" && game.totalClicks >= upgrades.requirement[i]) {
-                    document.getElementById("upgradeContainer").innerHTML += '<img src='+{BASEURL}+'"images/'+upgrades.image[i]+'"title=" '+upgrades.name[i]+' &#10; '+upgrades.description[i]+' &#10; ('+upgrades.cost[i]+' clicks)" onclick="upgrades.purchase('+i+')">'
+                    document.getElementById("upgradeContainer").innerHTML += `<img src="${BASEURL}images/`+upgrades.image[i]+'"title=" '+upgrades.name[i]+' &#10; '+upgrades.description[i]+' &#10; ('+upgrades.cost[i]+' clicks)" onclick="upgrades.purchase('+i+')">'
                 } else if (upgrades.type[i] == "clicktocps" && game.totalClicks >= upgrades.requirement[i]) {
-                   document.getElementById("upgradeContainer").innerHTML += '<img src='+{BASEURL}+'"images/'+upgrades.image[i]+'"title=" '+upgrades.name[i]+' &#10; '+upgrades.description[i]+' &#10; ('+upgrades.cost[i]+' clicks)" onclick="upgrades.purchase('+i+')">'
+                   document.getElementById("upgradeContainer").innerHTML += `<img src="${BASEURL}images/`+upgrades.image[i]+'"title=" '+upgrades.name[i]+' &#10; '+upgrades.description[i]+' &#10; ('+upgrades.cost[i]+' clicks)" onclick="upgrades.purchase('+i+')">'
                 }
             }
         }
@@ -210,7 +210,7 @@ var game = {
         document.getElementById("achievementContainer").innerHTML = "<div></div>"
         for (i = 0; i < achievements.name.length; i++) {
             if (achievements.awarded[i]) {
-                document.getElementById("achievementContainer").innerHTML += '<img src='+{BASEURL}+'"images/'+achievements.image[i]+'" title="'+achievements.name[i]+' &#10; '+achievements.description[i]+'">';
+                document.getElementById("achievementContainer").innerHTML += `<img src="${BASEURL}images/`+achievements.image[i]+'" title="'+achievements.name[i]+' &#10; '+achievements.description[i]+'">';
             }
         }
     },
@@ -758,9 +758,9 @@ var game = {
     }
 
     if (current_version.version && github_version.version) {
-      document.getElementById("versionDisplay").textContent = "javascript-clicker-attempt // Version " + current_version.version + " (Latest " + github_version.version + ")";
+      document.getElementById("versionDisplay").textContent = "javascript-clicker-attempt // Version " + current_version.version + " (Latest " + github_version.version + ") | PORTABLE BUILD";
     } else if (current_version) {
-      document.getElementById("versionDisplay").textContent = "javascript-clicker-attempt // Version " + current_version.version + " (Latest ?.?.?)";
+      document.getElementById("versionDisplay").textContent = "javascript-clicker-attempt // Version " + current_version.version + " (Latest ?.?.?) | PORTABLE BUILD";
     }
   }
 
@@ -849,7 +849,7 @@ var game = {
 
     // loads favicon
     document.head.innerHTML += `<link rel="icon" type="image/x-icon" href="${BASEURL}images/web/favicon.ico">`
-
+    notify("You are running a portable build, make sure you're up to date!")
     // attempt to load shop again //
     display.updateShop();
   };
