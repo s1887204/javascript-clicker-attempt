@@ -58,13 +58,13 @@
 
     {
       "name": "Click Mutation Serum - Stage I",
-      "description": "Makes your clicks worth 1% of your CPS",
+      "description": "Makes your clicks worth 10% of your CPS",
       "image": "upgds/clickspersecond_serum_1.png",
       "type": "clicktocps",
-      "cost": 300,
+      "cost": 200,
       "buildingIndex": -1,
       "requirement": 250,
-      "bonus": 0.01
+      "bonus": 0.1
     }
 
   ]
