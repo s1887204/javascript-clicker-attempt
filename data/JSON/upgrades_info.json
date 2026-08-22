@@ -61,7 +61,7 @@
       "description": "Makes your clicks worth 1% of your CPS",
       "image": "upgds/clickspersecond_serum_1.png",
       "type": "clicktocps",
-      "cost": 3500,
+      "cost": 300,
       "buildingIndex": -1,
       "requirement": 250,
       "bonus": 0.01
